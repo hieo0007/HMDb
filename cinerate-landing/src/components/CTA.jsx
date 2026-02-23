@@ -1,15 +1,17 @@
-import './CTA.css'
+import './CTA.css';
 
-const CTA = () => {
+function CTA() {
   return (
     <section className="cta section">
       <div className="container cta-content">
-        <h2>Pronto para começar a sua lista?</h2>
-        <p>Junte-se a milhares de cinéfilos e leitores agora mesmo.</p>
-        <button className="btn-primary">Criar Conta Grátis</button>
+        <h2>Ready to start your list?</h2>
+        <p>Join readers and viewers building their favorites on HMDb.</p>
+        <button type="button" className="btn-primary">
+          Create Free Account
+        </button>
       </div>
     </section>
-  )
+  );
 }
 
-export default CTA
+export default CTA;

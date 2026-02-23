@@ -1,34 +1,37 @@
-/* Layout Principal */
-.imdb-clone-container {
-  background: #000;
-  color: #fff;
+.details-page-container {
   min-height: 100vh;
   padding: 40px 6%;
-  font-family: 'Roboto', Arial, sans-serif;
+  background: #000000;
+  color: #ffffff;
 }
 
-.imdb-header-main {
+.details-page-header {
+  margin-top: 40px;
+  margin-bottom: 20px;
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  margin-bottom: 20px;
-  margin-top: 40px;
+  gap: 20px;
 }
 
-
-.imdb-header-main h1 {
-  font-size: 2.5rem;
+.details-page-header h1 {
   margin: 0;
+  font-size: 2.5rem;
 }
 
-/* Grid de Mídia (Poster, Trailer, Lateral) */
+.sub-header-info {
+  margin-top: 8px;
+  color: #bdbdbd;
+  font-size: 0.95rem;
+}
+
 .media-showcase {
-  display: grid;
-  grid-template-columns: 280px 1fr 200px;
-  gap: 4px;
-  height: 420px;
   width: 100%;
+  height: 420px;
   margin-bottom: 30px;
+  display: grid;
+  grid-template-columns: 280px 1fr 220px;
+  gap: 4px;
 }
 
 .main-poster img {
@@ -38,17 +41,25 @@
 }
 
 .main-trailer {
-  background: #000;
+  background: #000000;
 }
 
 .main-trailer iframe {
   width: 100%;
   height: 100%;
-  border: none;
+  border: 0;
   display: block;
 }
 
-/* Painel Lateral (Onde Assistir) */
+.trailer-unavailable {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #111111;
+  color: #ababab;
+}
+
 .side-media-panel {
   display: flex;
   flex-direction: column;
@@ -57,42 +68,46 @@
 
 .watch-section {
   flex: 2;
-  background: #252525;
   padding: 15px;
-  text-align: center;
+  background: #252525;
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-align: center;
 }
 
 .watch-title {
-  font-size: 0.7rem;
-  color: #f5c518;
-  font-weight: bold;
   margin-bottom: 15px;
+  color: #f5c518;
+  font-size: 0.72rem;
+  font-weight: 700;
   text-transform: uppercase;
 }
 
-.providers-list {
+.provider-list {
   display: flex;
   justify-content: center;
-  gap: 10px;
   flex-wrap: wrap;
+  gap: 10px;
 }
 
 .provider-link {
-  transition: transform 0.2s;
+  transition: transform 0.2s ease;
 }
 
 .provider-link:hover {
-  transform: scale(1.15);
+  transform: scale(1.12);
 }
 
-.providers-list img {
+.provider-list img {
   width: 45px;
   height: 45px;
   border-radius: 8px;
-  cursor: pointer;
+}
+
+.watch-unavailable {
+  color: #9e9e9e;
+  font-size: 0.74rem;
 }
 
 .side-card-watchlist {
@@ -103,47 +118,66 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: background 0.2s ease;
 }
 
 .side-card-watchlist:hover {
-  background: #333;
+  background: #313131;
 }
 
-/* Informações Técnicas */
 .synopsis-text {
   margin: 20px 0;
-  line-height: 1.6;
-  color: #ccc;
-  font-size: 1.1rem;
   max-width: 900px;
+  line-height: 1.6;
+  color: #cccccc;
+  font-size: 1.05rem;
 }
 
 .crew-item {
-  border-bottom: 1px solid #222;
   padding: 15px 0;
   display: flex;
   gap: 15px;
+  border-bottom: 1px solid #222222;
 }
 
 .crew-item strong {
-  color: #fff;
   min-width: 80px;
 }
 
 .crew-item span {
-  color: #5799ef;
+  color: #7fb2ff;
+}
+
+.genres-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  color: #7fb2ff;
 }
 
 .back-btn {
-  background: none;
-  border: none;
-  color: #aaa;
-  cursor: pointer;
   margin-bottom: 10px;
-  display: block;
+  border: 0;
+  background: transparent;
+  color: #b3b3b3;
 }
 
 .back-btn:hover {
-  color: #fff;
+  color: #ffffff;
+}
+
+@media (max-width: 980px) {
+  .details-page-header h1 {
+    font-size: 2rem;
+  }
+
+  .media-showcase {
+    height: auto;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .main-poster {
+    max-width: 280px;
+  }
 }

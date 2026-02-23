@@ -1,49 +1,53 @@
-import { useEffect, useState } from "react"
-import MovieCard from "./MovieCard"
-import "./Trending.css"
-import { API_KEY, BASE_URL } from "../services/api"
+import { useEffect, useState } from 'react';
+import { CONTENT_API_BASE_URL, CONTENT_API_KEY, CONTENT_IMAGE_BASE_URL } from '../services/api';
+import MovieCard from './MovieCard';
+import './Trending.css';
 
-const Trending = () => {
-  const [movies, setMovies] = useState([])
-  const [loading, setLoading] = useState(true)
+function Trending() {
+  const [movies, setMovies] = useState([]);
 
   useEffect(() => {
-    const fetchMovies = async () => {
+    const loadMovies = async () => {
+      if (!CONTENT_API_KEY) return;
+
       try {
-        const response = await fetch(`${BASE_URL}/movie/popular?api_key=${API_KEY}&language=pt-BR`)
-        const data = await response.json()
-        
-        // Formatando para o Card receber os dados certinhos
-        const formatted = data.results.slice(0, 8).map(m => ({
-          id: m.id,
-          title: m.title || m.name,
-          category: m.release_date ? 'Filme' : 'Série',
-          rating: m.vote_average,
-          image: `https://image.tmdb.org/t/p/w500${m.poster_path}`
-        }))
-        setMovies(formatted)
+        const response = await fetch(
+          `${CONTENT_API_BASE_URL}/movie/popular?api_key=${CONTENT_API_KEY}&language=pt-BR`
+        );
+        const data = await response.json();
+
+        const formattedItems = (data.results || []).slice(0, 8).map((item) => ({
+          id: item.id,
+          title: item.title || item.name,
+          category: item.release_date ? 'Movie' : 'Series',
+          rating: item.vote_average,
+          image: `${CONTENT_IMAGE_BASE_URL}/w500${item.poster_path}`,
+          poster_path: item.poster_path,
+          vote_average: item.vote_average,
+          vote_count: item.vote_count
+        }));
+
+        setMovies(formattedItems);
       } catch (error) {
-        console.error("Erro:", error)
-      } finally {
-        setLoading(false)
+        console.error('Failed to load trending section:', error);
       }
-    }
-    fetchMovies()
-  }, [])
+    };
+
+    loadMovies();
+  }, []);
 
   return (
     <section className="section">
       <div className="container">
-        <h2 className="section-title">Em Alta</h2>
+        <h2 className="section-title">Trending</h2>
         <div className="trending-grid">
           {movies.map((movie) => (
-            // AQUI: troquei 'item' por 'movie' para combinar com o seu MovieCard.jsx
             <MovieCard key={movie.id} movie={movie} />
           ))}
         </div>
       </div>
     </section>
-  )
+  );
 }
 
-export default Trending
+export default Trending;

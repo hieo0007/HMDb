@@ -2,89 +2,194 @@ import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import HeroPrincipal from '../components/HeroPrincipal';
 import MovieRow from '../components/MovieRow';
+import {
+  BOOKS_API_BASE_URL,
+  CONTENT_API_BASE_URL,
+  CONTENT_API_KEY,
+  CONTENT_IMAGE_BASE_URL
+} from '../services/api';
 import './Films.css';
 
-const TMDB_KEY = import.meta.env.VITE_TMDB_API_KEY;
-const MARKETPLACE_TAG = 'O-TEU-ID-AQUI-21';
+const DEFAULT_POSTER = 'https://via.placeholder.com/500x750?text=No+Poster';
+const DEFAULT_BOOK_COVER = 'https://via.placeholder.com/500x750?text=No+Cover';
+const OPEN_LIBRARY_BASE_URL = 'https://openlibrary.org';
+const OPEN_LIBRARY_COVER_BASE_URL = 'https://covers.openlibrary.org/b/id';
+const AWARD_WINNER_FALLBACK_IDS = [13, 122, 98, 597, 424, 238, 240, 496243, 545611, 872585, 1422];
+const AWARD_NOMINATED_FALLBACK_IDS = [278, 680, 857, 313369, 37799, 7345, 76341, 286217, 244786, 194];
+const STATIC_BOOK_FALLBACK = {
+  romance: [
+    {
+      id: 'romance-1',
+      title: 'Pride and Prejudice',
+      rating: 0,
+      imageUrl: DEFAULT_BOOK_COVER,
+      externalUrl: 'https://openlibrary.org/works/OL66554W'
+    },
+    {
+      id: 'romance-2',
+      title: 'Jane Eyre',
+      rating: 0,
+      imageUrl: DEFAULT_BOOK_COVER,
+      externalUrl: 'https://openlibrary.org/works/OL15831042W'
+    },
+    {
+      id: 'romance-3',
+      title: 'Wuthering Heights',
+      rating: 0,
+      imageUrl: DEFAULT_BOOK_COVER,
+      externalUrl: 'https://openlibrary.org/works/OL21177W'
+    }
+  ],
+  drama: [
+    {
+      id: 'drama-1',
+      title: 'Hamlet',
+      rating: 0,
+      imageUrl: DEFAULT_BOOK_COVER,
+      externalUrl: 'https://openlibrary.org/works/OL45804W'
+    },
+    {
+      id: 'drama-2',
+      title: 'Death of a Salesman',
+      rating: 0,
+      imageUrl: DEFAULT_BOOK_COVER,
+      externalUrl: 'https://openlibrary.org/works/OL19767W'
+    },
+    {
+      id: 'drama-3',
+      title: 'A Doll House',
+      rating: 0,
+      imageUrl: DEFAULT_BOOK_COVER,
+      externalUrl: 'https://openlibrary.org/works/OL151633W'
+    }
+  ],
+  fantasy: [
+    {
+      id: 'fantasy-1',
+      title: 'The Hobbit',
+      rating: 0,
+      imageUrl: DEFAULT_BOOK_COVER,
+      externalUrl: 'https://openlibrary.org/works/OL27448W'
+    },
+    {
+      id: 'fantasy-2',
+      title: 'The Name of the Wind',
+      rating: 0,
+      imageUrl: DEFAULT_BOOK_COVER,
+      externalUrl: 'https://openlibrary.org/works/OL82563W'
+    },
+    {
+      id: 'fantasy-3',
+      title: 'A Wizard of Earthsea',
+      rating: 0,
+      imageUrl: DEFAULT_BOOK_COVER,
+      externalUrl: 'https://openlibrary.org/works/OL17884W'
+    }
+  ],
+  general: [
+    {
+      id: 'general-1',
+      title: 'The Great Gatsby',
+      rating: 0,
+      imageUrl: DEFAULT_BOOK_COVER,
+      externalUrl: 'https://openlibrary.org/works/OL27628W'
+    },
+    {
+      id: 'general-2',
+      title: '1984',
+      rating: 0,
+      imageUrl: DEFAULT_BOOK_COVER,
+      externalUrl: 'https://openlibrary.org/works/OL73477W'
+    },
+    {
+      id: 'general-3',
+      title: 'The Catcher in the Rye',
+      rating: 0,
+      imageUrl: DEFAULT_BOOK_COVER,
+      externalUrl: 'https://openlibrary.org/works/OL45883W'
+    }
+  ]
+};
 
-const DEFAULT_POSTER = 'https://via.placeholder.com/500x750?text=Sem+Poster';
-const DEFAULT_BOOK_COVER = 'https://via.placeholder.com/500x750?text=Sem+Capa';
-const OSCAR_WINNER_FALLBACK_IDS = [13, 122, 98, 597, 424, 238, 240, 496243, 545611, 872585, 1422];
-const OSCAR_NOMINATED_FALLBACK_IDS = [278, 680, 857, 313369, 37799, 7345, 76341, 286217, 244786, 194];
+const buildImageUrl = (size, path) => `${CONTENT_IMAGE_BASE_URL}/${size}${path}`;
 
-const normalizeTmdbItem = (item) => ({
+const normalizeContentItem = (item) => ({
   id: item.id,
-  titulo: item.title || item.name || 'Titulo indisponivel',
-  voto: item.vote_average || 0,
-  imagem: item.poster_path
-    ? `https://image.tmdb.org/t/p/w500${item.poster_path}`
+  title: item.title || item.name || 'Title unavailable',
+  rating: item.vote_average || 0,
+  imageUrl: item.poster_path
+    ? buildImageUrl('w500', item.poster_path)
     : item.backdrop_path
-      ? `https://image.tmdb.org/t/p/w780${item.backdrop_path}`
+      ? buildImageUrl('w780', item.backdrop_path)
       : DEFAULT_POSTER
 });
 
 const normalizeBookItem = (item) => ({
   id: item.id,
-  titulo: item.volumeInfo?.title || 'Titulo indisponivel',
-  voto: item.volumeInfo?.averageRating || 0,
-  imagem: item.volumeInfo?.imageLinks?.thumbnail?.replace('http:', 'https:') || DEFAULT_BOOK_COVER
+  title: item.volumeInfo?.title || 'Title unavailable',
+  rating: item.volumeInfo?.averageRating || 0,
+  imageUrl: item.volumeInfo?.imageLinks?.thumbnail?.replace('http:', 'https:') || DEFAULT_BOOK_COVER,
+  externalUrl:
+    item.volumeInfo?.infoLink ||
+    item.volumeInfo?.canonicalVolumeLink ||
+    item.saleInfo?.buyLink ||
+    ''
 });
 
 const randomPage = (max = 4) => Math.floor(Math.random() * max) + 1;
 
-const randomPages = (max = 10, count = 3) => {
-  const pages = Array.from({ length: max }, (_, index) => index + 1);
-  const shuffled = shuffleItems(pages);
-  return shuffled.slice(0, count);
+const shuffleItems = (items) => {
+  const list = [...items];
+  for (let index = list.length - 1; index > 0; index -= 1) {
+    const randomIndex = Math.floor(Math.random() * (index + 1));
+    [list[index], list[randomIndex]] = [list[randomIndex], list[index]];
+  }
+  return list;
 };
 
-const shuffleItems = (items) => {
-  const arr = [...items];
-  for (let i = arr.length - 1; i > 0; i -= 1) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-  }
-  return arr;
-};
+const randomPages = (max = 10, count = 3) =>
+  shuffleItems(Array.from({ length: max }, (_, index) => index + 1)).slice(0, count);
 
 const uniqueById = (items) => {
-  const uniqueMap = new Map();
+  const map = new Map();
   for (const item of items) {
-    if (!uniqueMap.has(item.id)) {
-      uniqueMap.set(item.id, item);
+    if (!map.has(item.id)) {
+      map.set(item.id, item);
     }
   }
-  return Array.from(uniqueMap.values());
+  return Array.from(map.values());
 };
 
 const buildUniqueRow = ({ title, pools, usedIds, limit = 20 }) => {
-  const merged = pools.flat().filter(Boolean);
-  const filtered = uniqueById(merged).filter((item) => !usedIds.has(item.id));
-  const selected = shuffleItems(filtered).slice(0, limit);
-  selected.forEach((item) => usedIds.add(item.id));
-  return { title, items: selected };
+  const mergedItems = pools.flat().filter(Boolean);
+  const filteredItems = uniqueById(mergedItems).filter((item) => !usedIds.has(item.id));
+  const selectedItems = shuffleItems(filteredItems).slice(0, limit);
+  selectedItems.forEach((item) => usedIds.add(item.id));
+  return { title, items: selectedItems };
 };
 
 const fetchJson = async (url, signal) => {
   const response = await fetch(url, { signal });
   if (!response.ok) {
-    throw new Error(`Erro HTTP ${response.status}`);
+    const error = new Error(`HTTP ${response.status}`);
+    error.status = response.status;
+    throw error;
   }
   return response.json();
 };
 
-const fetchTmdbItems = async ({ url, signal }) => {
+const fetchContentItems = async ({ url, signal }) => {
   const data = await fetchJson(url, signal);
-  return (data.results || []).map(normalizeTmdbItem);
+  return (data.results || []).map(normalizeContentItem);
 };
 
-const fetchTmdbKeywordIds = async ({ queries, signal }) => {
+const fetchKeywordIds = async ({ queries, signal }) => {
   const idSet = new Set();
 
   await Promise.all(
     queries.map(async (query) => {
       const data = await fetchJson(
-        `https://api.themoviedb.org/3/search/keyword?api_key=${TMDB_KEY}&query=${encodeURIComponent(query)}`,
+        `${CONTENT_API_BASE_URL}/search/keyword?api_key=${CONTENT_API_KEY}&query=${encodeURIComponent(query)}`,
         signal
       );
       (data.results || []).slice(0, 5).forEach((keyword) => idSet.add(keyword.id));
@@ -94,97 +199,149 @@ const fetchTmdbKeywordIds = async ({ queries, signal }) => {
   return Array.from(idSet);
 };
 
-const fetchTmdbItemsByIds = async ({ ids, signal }) => {
+const fetchContentItemsByIds = async ({ ids, signal }) => {
   const responses = await Promise.allSettled(
-    ids.map((id) =>
-      fetchJson(`https://api.themoviedb.org/3/movie/${id}?api_key=${TMDB_KEY}&language=pt-BR`, signal)
-    )
+    ids.map((id) => fetchJson(`${CONTENT_API_BASE_URL}/movie/${id}?api_key=${CONTENT_API_KEY}&language=pt-BR`, signal))
   );
 
   return responses
     .filter((result) => result.status === 'fulfilled')
-    .map((result) => normalizeTmdbItem(result.value));
+    .map((result) => normalizeContentItem(result.value));
 };
 
-const fetchTmdbRow = async ({ title, url, signal }) => {
-  const items = await fetchTmdbItems({ url, signal });
-  return {
-    title,
-    items
-  };
+const fetchContentRow = async ({ title, url, signal }) => ({
+  title,
+  items: await fetchContentItems({ url, signal })
+});
+
+const normalizeOpenLibraryItem = (item, index) => ({
+  id: item.key || `open-library-${index}`,
+  title: item.title || 'Title unavailable',
+  rating: 0,
+  imageUrl: item.cover_i
+    ? `${OPEN_LIBRARY_COVER_BASE_URL}/${item.cover_i}-L.jpg`
+    : DEFAULT_BOOK_COVER,
+  externalUrl: item.key ? `${OPEN_LIBRARY_BASE_URL}${item.key}` : ''
+});
+
+const pickStaticBookFallback = (query) => {
+  const normalizedQuery = query.toLowerCase();
+
+  if (normalizedQuery.includes('romance')) return STATIC_BOOK_FALLBACK.romance;
+  if (normalizedQuery.includes('drama')) return STATIC_BOOK_FALLBACK.drama;
+  if (normalizedQuery.includes('fantasy')) return STATIC_BOOK_FALLBACK.fantasy;
+  return STATIC_BOOK_FALLBACK.general;
+};
+
+const fetchBooksFromOpenLibrary = async ({ query, signal }) => {
+  const url = `${OPEN_LIBRARY_BASE_URL}/search.json?q=${encodeURIComponent(query)}&limit=20`;
+  const data = await fetchJson(url, signal);
+  return (data.docs || []).map(normalizeOpenLibraryItem);
 };
 
 const fetchBooksRow = async ({ title, query, orderBy = 'relevance', signal }) => {
-  const encodedQuery = encodeURIComponent(query);
-  const url = `https://www.googleapis.com/books/v1/volumes?q=${encodedQuery}&startIndex=0&maxResults=20&printType=books&orderBy=${orderBy}`;
-  const data = await fetchJson(url, signal);
-  return {
-    title,
-    items: (data.items || []).map(normalizeBookItem)
-  };
-};
+  try {
+    const encodedQuery = encodeURIComponent(query);
+    const url = `${BOOKS_API_BASE_URL}/volumes?q=${encodedQuery}&startIndex=0&maxResults=20&printType=books&orderBy=${orderBy}`;
+    const data = await fetchJson(url, signal);
+    return {
+      title,
+      items: (data.items || []).map(normalizeBookItem)
+    };
+  } catch (error) {
+    if (error.name === 'AbortError') throw error;
 
-function Home({ temaInicial, buscaGlobal = '' }) {
-  const [rows, setRows] = useState([]);
-  const [carregando, setCarregando] = useState(false);
-  const [erro, setErro] = useState('');
-  const navigate = useNavigate();
-
-  const abrirLinkCompra = useCallback((titulo) => {
-    const query = encodeURIComponent(titulo);
-    const url = `https://www.amazon.com.br/s?k=${query}&tag=${MARKETPLACE_TAG}`;
-    window.open(url, '_blank');
-  }, []);
-
-  const handleItemClick = useCallback((item) => {
-    if (temaInicial === 'livros') {
-      abrirLinkCompra(item.titulo);
-      return;
+    try {
+      const openLibraryItems = await fetchBooksFromOpenLibrary({ query, signal });
+      if (openLibraryItems.length > 0) {
+        return {
+          title,
+          items: openLibraryItems
+        };
+      }
+    } catch (fallbackError) {
+      if (fallbackError.name === 'AbortError') throw fallbackError;
     }
 
-    const tipo = temaInicial === 'filmes' ? 'movie' : 'tv';
-    navigate(`/detalhes/${tipo}/${item.id}`);
-  }, [temaInicial, abrirLinkCompra, navigate]);
+    return {
+      title,
+      items: pickStaticBookFallback(query)
+    };
+  }
+};
+
+function Films({ initialTheme, globalSearch = '' }) {
+  const [rows, setRows] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState(globalSearch);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setDebouncedSearch(globalSearch);
+    }, 350);
+
+    return () => window.clearTimeout(timer);
+  }, [globalSearch]);
+
+  const openExternalLink = useCallback((url) => {
+    if (!url) return;
+    window.open(url, '_blank', 'noopener,noreferrer');
+  }, []);
+
+  const handleItemClick = useCallback(
+    (item) => {
+      if (initialTheme === 'livros') {
+        openExternalLink(item.externalUrl);
+        return;
+      }
+
+      const contentType = initialTheme === 'filmes' ? 'movie' : 'tv';
+      navigate(`/detalhes/${contentType}/${item.id}`);
+    },
+    [initialTheme, navigate, openExternalLink]
+  );
 
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
-    const busca = buscaGlobal.trim();
+    const search = debouncedSearch.trim();
 
-    const carregar = async () => {
-      setCarregando(true);
-      setErro('');
+    const loadRows = async () => {
+      setIsLoading(true);
+      setErrorMessage('');
       setRows([]);
 
       try {
-        if (temaInicial !== 'livros' && !TMDB_KEY) {
-          throw new Error('Defina VITE_TMDB_API_KEY no arquivo .env para carregar filmes e series.');
+        if (initialTheme !== 'livros' && !CONTENT_API_KEY) {
+          throw new Error('Set VITE_CONTENT_API_KEY (or VITE_TMDB_API_KEY) in your .env file.');
         }
 
-        let resultado = [];
+        let nextRows = [];
 
-        if (temaInicial === 'filmes') {
-          if (busca) {
-            resultado = await Promise.all([
-              fetchTmdbRow({
-                title: `Resultados para "${busca}"`,
-                url: `https://api.themoviedb.org/3/search/movie?api_key=${TMDB_KEY}&language=pt-BR&include_adult=false&page=1&query=${encodeURIComponent(busca)}`,
+        if (initialTheme === 'filmes') {
+          if (search) {
+            nextRows = await Promise.all([
+              fetchContentRow({
+                title: `Results for "${search}"`,
+                url: `${CONTENT_API_BASE_URL}/search/movie?api_key=${CONTENT_API_KEY}&language=pt-BR&include_adult=false&page=1&query=${encodeURIComponent(search)}`,
                 signal
               })
             ]);
           } else {
-            const winnersPages = randomPages(4, 3);
+            const winnerPages = randomPages(4, 3);
             const nominatedPages = randomPages(4, 3);
-            const pagePopular = randomPage(5);
-            const pageTopRated = randomPage(5);
+            const popularPage = randomPage(5);
+            const topRatedPage = randomPage(5);
 
             const [winnerKeywordIds, nominatedKeywordIds] = await Promise.all([
-              fetchTmdbKeywordIds({
-                queries: ['oscar winner', 'academy award winner', 'best picture winner'],
+              fetchKeywordIds({
+                queries: ['award winner', 'best picture winner', 'festival winner'],
                 signal
               }),
-              fetchTmdbKeywordIds({
-                queries: ['oscar nominee', 'academy award nominee', 'best picture nominee'],
+              fetchKeywordIds({
+                queries: ['award nominee', 'best picture nominee', 'festival nominee'],
                 signal
               })
             ]);
@@ -192,40 +349,47 @@ function Home({ temaInicial, buscaGlobal = '' }) {
             const winnerQueryIds = winnerKeywordIds.length > 0 ? winnerKeywordIds : [312553];
             const nominatedQueryIds = nominatedKeywordIds.length > 0 ? nominatedKeywordIds : [250482];
 
-            const [winnerPools, nominatedPools, winnersFallbackPool, nominatedFallbackPool, popularesPool, topRatedPool] = await Promise.all([
+            const [
+              winnerPools,
+              nominatedPools,
+              winnersFallbackPool,
+              nominatedFallbackPool,
+              popularPool,
+              topRatedPool
+            ] = await Promise.all([
               Promise.all(
-                winnersPages.map((page) =>
-                  fetchTmdbItems({
-                    url: `https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_KEY}&language=pt-BR&include_adult=false&page=${page}&sort_by=popularity.desc&with_keywords=${winnerQueryIds.slice(0, 6).join('|')}`,
+                winnerPages.map((page) =>
+                  fetchContentItems({
+                    url: `${CONTENT_API_BASE_URL}/discover/movie?api_key=${CONTENT_API_KEY}&language=pt-BR&include_adult=false&page=${page}&sort_by=popularity.desc&with_keywords=${winnerQueryIds.slice(0, 6).join('|')}`,
                     signal
                   })
                 )
               ),
               Promise.all(
                 nominatedPages.map((page) =>
-                  fetchTmdbItems({
-                    url: `https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_KEY}&language=pt-BR&include_adult=false&page=${page}&sort_by=popularity.desc&with_keywords=${nominatedQueryIds.slice(0, 6).join('|')}`,
+                  fetchContentItems({
+                    url: `${CONTENT_API_BASE_URL}/discover/movie?api_key=${CONTENT_API_KEY}&language=pt-BR&include_adult=false&page=${page}&sort_by=popularity.desc&with_keywords=${nominatedQueryIds.slice(0, 6).join('|')}`,
                     signal
                   })
                 )
               ),
-              fetchTmdbItemsByIds({ ids: OSCAR_WINNER_FALLBACK_IDS, signal }),
-              fetchTmdbItemsByIds({ ids: OSCAR_NOMINATED_FALLBACK_IDS, signal }),
-              fetchTmdbItems({
-                url: `https://api.themoviedb.org/3/movie/popular?api_key=${TMDB_KEY}&language=pt-BR&page=${pagePopular}`,
+              fetchContentItemsByIds({ ids: AWARD_WINNER_FALLBACK_IDS, signal }),
+              fetchContentItemsByIds({ ids: AWARD_NOMINATED_FALLBACK_IDS, signal }),
+              fetchContentItems({
+                url: `${CONTENT_API_BASE_URL}/movie/popular?api_key=${CONTENT_API_KEY}&language=pt-BR&page=${popularPage}`,
                 signal
               }),
-              fetchTmdbItems({
-                url: `https://api.themoviedb.org/3/movie/top_rated?api_key=${TMDB_KEY}&language=pt-BR&page=${pageTopRated}`,
+              fetchContentItems({
+                url: `${CONTENT_API_BASE_URL}/movie/top_rated?api_key=${CONTENT_API_KEY}&language=pt-BR&page=${topRatedPage}`,
                 signal
               })
             ]);
 
             const usedIds = new Set();
-            const winnersOnly = uniqueById([...winnerPools.flat(), ...winnersFallbackPool]);
+            const winnerOnly = uniqueById([...winnerPools.flat(), ...winnersFallbackPool]);
             const winnersRow = buildUniqueRow({
-              title: 'Vencedores do Oscar',
-              pools: [winnersOnly],
+              title: 'Award Winners',
+              pools: [winnerOnly],
               usedIds,
               limit: 20
             });
@@ -234,123 +398,121 @@ function Home({ temaInicial, buscaGlobal = '' }) {
             const nominatedOnly = uniqueById([...nominatedPools.flat(), ...nominatedFallbackPool]);
             const nominatedWithoutWinners = nominatedOnly.filter((item) => !winnerIds.has(item.id));
             const nominatedRow = buildUniqueRow({
-              title: 'Indicado ao Oscar',
+              title: 'Award Nominees',
               pools: [nominatedWithoutWinners],
               usedIds,
               limit: 20
             });
 
             const popularRow = buildUniqueRow({
-              title: 'Populares',
-              pools: [popularesPool, topRatedPool],
+              title: 'Popular',
+              pools: [popularPool, topRatedPool],
               usedIds,
               limit: 20
             });
 
             const topRatedRow = buildUniqueRow({
-              title: 'Mais bem avaliados',
-              pools: [topRatedPool, popularesPool],
+              title: 'Top Rated',
+              pools: [topRatedPool, popularPool],
               usedIds,
               limit: 20
             });
 
-            resultado = [winnersRow, nominatedRow, popularRow, topRatedRow];
+            nextRows = [winnersRow, nominatedRow, popularRow, topRatedRow];
           }
-        } else if (temaInicial === 'series') {
-          if (busca) {
-            resultado = await Promise.all([
-              fetchTmdbRow({
-                title: `Resultados para "${busca}"`,
-                url: `https://api.themoviedb.org/3/search/tv?api_key=${TMDB_KEY}&language=pt-BR&include_adult=false&page=1&query=${encodeURIComponent(busca)}`,
+        } else if (initialTheme === 'series') {
+          if (search) {
+            nextRows = await Promise.all([
+              fetchContentRow({
+                title: `Results for "${search}"`,
+                url: `${CONTENT_API_BASE_URL}/search/tv?api_key=${CONTENT_API_KEY}&language=pt-BR&include_adult=false&page=1&query=${encodeURIComponent(search)}`,
                 signal
               })
             ]);
           } else {
-            resultado = await Promise.all([
-              fetchTmdbRow({
-                title: 'Populares',
-                url: `https://api.themoviedb.org/3/tv/popular?api_key=${TMDB_KEY}&language=pt-BR&page=1`,
+            nextRows = await Promise.all([
+              fetchContentRow({
+                title: 'Popular',
+                url: `${CONTENT_API_BASE_URL}/tv/popular?api_key=${CONTENT_API_KEY}&language=pt-BR&page=1`,
                 signal
               }),
-              fetchTmdbRow({
-                title: 'Mais bem avaliadas',
-                url: `https://api.themoviedb.org/3/tv/top_rated?api_key=${TMDB_KEY}&language=pt-BR&page=1`,
+              fetchContentRow({
+                title: 'Top Rated',
+                url: `${CONTENT_API_BASE_URL}/tv/top_rated?api_key=${CONTENT_API_KEY}&language=pt-BR&page=1`,
                 signal
               }),
-              fetchTmdbRow({
-                title: 'Lancamentos',
-                url: `https://api.themoviedb.org/3/tv/on_the_air?api_key=${TMDB_KEY}&language=pt-BR&page=1`,
+              fetchContentRow({
+                title: 'Now Airing',
+                url: `${CONTENT_API_BASE_URL}/tv/on_the_air?api_key=${CONTENT_API_KEY}&language=pt-BR&page=1`,
                 signal
               })
             ]);
           }
+        } else if (search) {
+          nextRows = await Promise.all([
+            fetchBooksRow({
+              title: `Results for "${search}"`,
+              query: search,
+              orderBy: 'relevance',
+              signal
+            })
+          ]);
         } else {
-          if (busca) {
-            resultado = await Promise.all([
-              fetchBooksRow({
-                title: `Resultados para "${busca}"`,
-                query: busca,
-                orderBy: 'relevance',
-                signal
-              })
-            ]);
-          } else {
-            resultado = await Promise.all([
-              fetchBooksRow({ title: 'Romance', query: 'subject:romance', signal }),
-              fetchBooksRow({ title: 'Drama', query: 'subject:drama', signal }),
-              fetchBooksRow({ title: 'Fantasia', query: 'subject:fantasy', signal })
-            ]);
-          }
+          nextRows = await Promise.all([
+            fetchBooksRow({ title: 'Romance', query: 'subject:romance', signal }),
+            fetchBooksRow({ title: 'Drama', query: 'subject:drama', signal }),
+            fetchBooksRow({ title: 'Fantasy', query: 'subject:fantasy', signal })
+          ]);
         }
 
-        setRows(resultado);
+        setRows(nextRows);
       } catch (error) {
         if (error.name !== 'AbortError') {
-          setErro(error.message || 'Erro ao carregar catalogo.');
+          setErrorMessage(error.message || 'Failed to load catalog.');
         }
       } finally {
         if (!signal.aborted) {
-          setCarregando(false);
+          setIsLoading(false);
         }
       }
     };
 
-    carregar();
+    loadRows();
 
     return () => controller.abort();
-  }, [temaInicial, buscaGlobal]);
+  }, [debouncedSearch, initialTheme]);
 
-  const possuiResultados = rows.some((row) => row.items.length > 0);
+  const hasResults = rows.some((row) => row.items.length > 0);
 
   return (
-    <div className={`tema-${temaInicial} films-page`}>
+    <div className={`tema-${initialTheme} films-page`}>
       <div className="video-background">
         <video autoPlay loop muted playsInline className="video-content">
-          <source src="https://assets.mixkit.co/videos/preview/mixkit-abstract-dark-particles-motion-background-overlay-48762-large.mp4" type="video/mp4" />
+          <source
+            src="https://assets.mixkit.co/videos/preview/mixkit-abstract-dark-particles-motion-background-overlay-48762-large.mp4"
+            type="video/mp4"
+          />
         </video>
-        <div className="video-overlay-dark"></div>
+        <div className="video-overlay-dark" />
       </div>
 
       <main className="films-main">
-        {temaInicial !== 'livros' && <HeroPrincipal tema={temaInicial} />}
+        {initialTheme !== 'livros' && <HeroPrincipal key={initialTheme} theme={initialTheme} />}
 
         <div className="rows-container">
           {rows.map((row) => (
-            <MovieRow
-              key={row.title}
-              title={row.title}
-              items={row.items}
-              onItemClick={handleItemClick}
-            />
+            <MovieRow key={row.title} title={row.title} items={row.items} onItemClick={handleItemClick} />
           ))}
 
-          {carregando && <div className="loading-state">Carregando {temaInicial}...</div>}
-          {!carregando && !erro && !possuiResultados && <div className="loading-state">Nenhum resultado encontrado.</div>}
-          {erro && <div className="loading-state error">{erro}</div>}
+          {isLoading && <div className="loading-state">Loading {initialTheme}...</div>}
+          {!isLoading && !errorMessage && !hasResults && (
+            <div className="loading-state">No results found.</div>
+          )}
+          {errorMessage && <div className="loading-state error">{errorMessage}</div>}
         </div>
       </main>
     </div>
   );
 }
 
-export default Home;
+export default Films;

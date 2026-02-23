@@ -1,3 +1,14 @@
-export const API_KEY = "b1b3d3350b22c41bdd09526780ced442"
-export const BASE_URL = "https://api.themoviedb.org/3"
-export const IMAGE_URL = "https://image.tmdb.org/t/p/w500"
+export const CONTENT_API_KEY =
+  import.meta.env.VITE_CONTENT_API_KEY || import.meta.env.VITE_TMDB_API_KEY || '';
+
+export const CONTENT_API_BASE_URL =
+  import.meta.env.VITE_CONTENT_API_BASE_URL || 'https://api.themoviedb.org/3';
+
+export const CONTENT_IMAGE_BASE_URL =
+  import.meta.env.VITE_CONTENT_IMAGE_BASE_URL || 'https://image.tmdb.org/t/p';
+
+export const BOOKS_API_BASE_URL =
+  import.meta.env.VITE_BOOKS_API_BASE_URL || 'https://www.googleapis.com/books/v1';
+
+export const VIDEO_EMBED_BASE_URL =
+  import.meta.env.VITE_VIDEO_EMBED_BASE_URL || 'https://www.youtube.com/embed';

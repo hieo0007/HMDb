@@ -1,86 +1,146 @@
 .modal-overlay {
   position: fixed;
-  top: 0; left: 0; width: 100%; height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 2000;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: rgba(0, 0, 0, 0.9);
-  display: flex; justify-content: center; align-items: center;
-  z-index: 2000; backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
 }
 
 .modal-content-detalhes {
-  background: #14181c;
-  width: 90%; max-width: 850px;
+  width: 90%;
+  max-width: 850px;
   max-height: 85vh;
-  border-radius: 16px;
-  position: relative;
   overflow-y: auto;
-  color: white;
+  position: relative;
+  border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #14181c;
+  color: #ffffff;
 }
 
 .close-modal {
-  position: absolute; right: 20px; top: 15px;
-  background: none; border: none; color: white;
-  font-size: 2rem; cursor: pointer; opacity: 0.6;
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  border: 0;
+  background: none;
+  color: #ffffff;
+  opacity: 0.6;
+  font-size: 2rem;
 }
 
-.close-modal:hover { opacity: 1; }
+.close-modal:hover {
+  opacity: 1;
+}
 
-.detalhes-grid { padding: 40px; }
+.detalhes-grid {
+  padding: 40px;
+}
 
-.detalhes-header h1 { font-size: 2.2rem; margin-bottom: 8px; }
+.detalhes-header h1 {
+  margin-bottom: 8px;
+  font-size: 2.2rem;
+}
 
 .meta-info {
-  display: flex; gap: 15px; color: #9ab;
-  font-weight: 600; margin-bottom: 25px;
+  margin-bottom: 25px;
+  display: flex;
+  gap: 15px;
+  color: #9ab;
   font-size: 0.9rem;
+  font-weight: 600;
 }
 
-.rating-badge { color: #f5c518; }
+.rating-badge {
+  color: #f5c518;
+}
 
 .detalhes-body {
-  display: grid; grid-template-columns: 280px 1fr; gap: 30px;
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 30px;
 }
 
 .poster-destaque img {
-  width: 100%; border-radius: 12px;
-  box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
 }
 
-.info-texto h3 { margin-bottom: 12px; color: var(--cor-principal); font-size: 1rem; text-transform: uppercase; }
-.info-texto p { line-height: 1.6; color: #ccd6e0; font-size: 1.05rem; margin-bottom: 20px; }
+.info-texto h3 {
+  margin-bottom: 12px;
+  color: var(--color-primary);
+  font-size: 1rem;
+  text-transform: uppercase;
+}
 
-.generos-tags { display: flex; gap: 8px; margin-top: 15px; flex-wrap: wrap; }
+.info-texto p {
+  margin-bottom: 20px;
+  line-height: 1.6;
+  color: #ccd6e0;
+  font-size: 1.05rem;
+}
+
+.generos-tags {
+  margin-top: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
 .generos-tags span {
-  background: rgba(255,255,255,0.08); padding: 6px 14px;
-  border-radius: 6px; font-size: 0.8rem; border: 1px solid rgba(255,255,255,0.1);
+  padding: 6px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  font-size: 0.8rem;
 }
 
-/* CORREÇÃO DOS BOTÕES (SUMIR COM A BARRA BRANCA) */
-.acoes-modal { display: flex; gap: 12px; margin-top: 35px; }
+.acoes-modal {
+  margin-top: 35px;
+  display: flex;
+  gap: 12px;
+}
 
 .btn-modal-principal {
-  background: var(--cor-principal) !important;
-  color: #14181c !important;
-  border: none; padding: 12px 25px;
-  border-radius: 6px; font-weight: 800;
-  text-transform: uppercase; cursor: pointer;
-  transition: 0.3s; font-size: 0.85rem;
-  box-shadow: 0 0 15px var(--cor-glow);
+  border: 0;
+  border-radius: 6px;
+  background: var(--color-primary);
+  color: #14181c;
+  box-shadow: 0 0 15px var(--color-primary-glow);
+  padding: 12px 25px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  text-transform: uppercase;
 }
 
 .btn-modal-secundario {
-  background: rgba(255,255,255,0.05);
-  color: white; border: 1px solid #444;
-  padding: 12px 25px; border-radius: 6px;
-  font-weight: 600; cursor: pointer; transition: 0.3s;
+  padding: 12px 25px;
+  border-radius: 6px;
+  border: 1px solid #444;
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+  font-weight: 600;
+  transition: 0.3s;
 }
 
 .btn-modal-secundario:hover {
-  background: rgba(255,255,255,0.1);
-  border-color: var(--cor-principal);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--color-primary);
 }
 
 @media (max-width: 768px) {
-  .detalhes-body { grid-template-columns: 1fr; }
-  .poster-destaque { display: none; }
+  .detalhes-body {
+    grid-template-columns: 1fr;
+  }
+
+  .poster-destaque {
+    display: none;
+  }
 }

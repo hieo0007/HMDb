@@ -1,42 +1,31 @@
-/* =====================================================
-   TRAILER HERO (COMPONENTE PRINCIPAL)
-===================================================== */
-
 .trailer-hero {
   width: 100%;
   max-width: 1300px;
   margin: 40px auto;
   display: grid;
   grid-template-columns: 2fr 1fr;
-  background: #000;
   border-radius: 10px;
   overflow: hidden;
   position: relative;
+  background: #000;
 }
 
-/* Área do vídeo */
 .trailer-main {
   position: relative;
-  background: #000;
   min-height: 420px;
   display: flex;
   align-items: flex-end;
   padding: 30px;
+  background: #000;
 }
 
-/* Overlay escuro */
 .trailer-main::after {
-  content: "";
+  content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 0.8),
-    rgba(0, 0, 0, 0.2)
-  );
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.2));
 }
 
-/* Conteúdo em cima do vídeo */
 .trailer-content {
   position: relative;
   z-index: 2;
@@ -48,9 +37,9 @@
 }
 
 .trailer-title {
+  margin: 10px 0;
   font-size: 2.2rem;
   font-weight: 800;
-  margin: 10px 0;
 }
 
 .trailer-subtitle {
@@ -58,31 +47,28 @@
   opacity: 0.8;
 }
 
-/* Botão play */
 .play-button {
   width: 60px;
   height: 60px;
+  margin-bottom: 15px;
   background: #f5c518;
   clip-path: polygon(25% 20%, 25% 80%, 80% 50%);
-  margin-bottom: 15px;
 }
 
-/* Lado direito (lista) */
 .trailer-sidebar {
-  background: #111;
   padding: 25px;
+  background: #111;
 }
 
 .trailer-sidebar h3 {
-  color: #f5c518;
   margin-bottom: 20px;
+  color: #f5c518;
 }
 
 .trailer-item {
+  margin-bottom: 20px;
   display: flex;
   gap: 10px;
-  margin-bottom: 20px;
-  cursor: pointer;
   transition: 0.2s ease;
 }
 
@@ -99,7 +85,6 @@
   font-size: 0.9rem;
 }
 
-/* Responsivo */
 @media (max-width: 900px) {
   .trailer-hero {
     grid-template-columns: 1fr;

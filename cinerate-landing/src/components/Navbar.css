@@ -1,244 +1,172 @@
-/* Navbar.css (atualizado para estilo Netflix-like, com integração do botão e ajustes para manter sua logo) */
-
-/* Base da Navbar Netflix-style */
-.netflix-navbar {
+.main-navbar {
   position: fixed;
   top: 0;
-  width: 100%;
-  background: rgba(0, 0, 0, 0.95);  /* Fundo preto semi-transparente */
-  backdrop-filter: blur(10px);
-  border-bottom: none;  /* Sem borda inferior */
+  left: 0;
   z-index: 1000;
-  padding: 10px 0;
-  transition: background 0.3s;  /* Para scroll effects, se quiser adicionar */
+  width: 100%;
+  height: 70px;
+  border-bottom: 1px solid #222;
+  background: rgba(14, 14, 14, 0.94);
+  backdrop-filter: blur(8px);
 }
 
-.netflix-navbar-content {
+.navbar-content {
+  width: 100%;
+  height: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 28px;
   display: flex;
   align-items: center;
-  max-width: 1400px;  /* Largura mais ampla como Netflix */
-  margin: 0 auto;
-  padding: 0 4%;  /* Padding lateral maior */
-  height: 60px;
+  gap: 28px;
 }
 
-/* Sua logo original (adaptada para vermelho Netflix se quiser, mas mantida como está) */
 .brand-container {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   text-decoration: none;
-  margin-right: 30px;
 }
 
 .navbar-logo-img {
   width: 32px;
   height: 32px;
   object-fit: contain;
-  filter: drop-shadow(0 0 5px var(--cor-glow));
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.28));
 }
 
 .logo {
-  font-size: 1.6rem;
-  font-weight: 900;
-  color: #e50914;  /* Vermelho Netflix para combinar */
-  transition: 0.4s;
+  color: #ffffff;
+  font-size: 1.3rem;
+  font-weight: 800;
+  letter-spacing: 0.3px;
 }
 
-/* Links de navegação */
-.netflix-nav-links {
-  display: flex;
-  gap: 20px;
-}
-
-.netflix-nav-links a {
-  color: #e5e5e5;  /* Cinza claro */
-  font-size: 1rem;
-  font-weight: 500;
-  text-decoration: none;
-  transition: color 0.3s;
-}
-
-.netflix-nav-links a:hover,
-.netflix-nav-links a.active {
-  color: #ffffff;  /* Branco ao hover/active */
-}
-
-/* Seção direita */
-.netflix-right-section {
+.nav-links-container {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 18px;
+}
+
+.nav-links-container a {
+  color: #cbcbcb;
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.nav-links-container a:hover,
+.nav-links-container a.active {
+  color: #ffffff;
+}
+
+.right-section-container {
   margin-left: auto;
-}
-
-/* Botão de busca (o código fornecido já tem seus estilos inline, mas podemos adicionar ajustes) */
-.netflix-right-section .p-5 {  /* Ajustes opcionais */
-  background: #141414;  /* Fundo escuro Netflix em vez de azul */
-  /* Mantenha o resto inline como no HTML */
-}
-
-/* Link Infantil */
-/* .netflix-kids {
-  color: #e5e5e5;
-  font-size: 1rem;
-  text-decoration: none;
-} */
-
-.netflix-kids:hover {
-  color: #ffffff;
-}
-
-/* Notificações (sino) */
-.netflix-notifications {
-  position: relative;
-  cursor: pointer;
-  color: #e5e5e5;
-  font-size: 1.2rem;
-}
-
-.badge {
-  position: absolute;
-  top: -5px;
-  right: -10px;
-  background: #e50914;
-  color: white;
-  border-radius: 50%;
-  padding: 2px 6px;
-  font-size: 0.8rem;
-}
-
-/* Perfil */
-.netflix-profile {
-  cursor: pointer;
-  color: #0071eb;  /* Azul para ícone */
-  font-size: 1.5rem;
-}
-
-/* User logged e auth group (mantidos do original) */
-.user-logged {
   display: flex;
   align-items: center;
-  gap: 15px;
-  color: #e5e5e5;
+  gap: 14px;
 }
 
-.user-logged strong {
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  position: absolute;
+  right: 0;
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+}
+
+.input {
+  width: 42px;
+  height: 42px;
+  padding: 10px;
+  padding-right: 40px;
+  border: 0;
+  border-radius: 999px;
+  outline: none;
   color: #ffffff;
+  background: transparent;
+  transition: width 0.3s ease, border-radius 0.3s ease;
 }
 
-.btn-logout {
-  background: none;
-  border: 1px solid #444;
-  color: #e5e5e5;
-  padding: 6px 15px;
+.input::placeholder {
+  color: #9f9f9f;
+}
+
+.input:focus,
+.icon:focus ~ .input {
+  width: 240px;
   border-radius: 6px;
-  cursor: pointer;
-  transition: 0.3s;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.85);
 }
 
-.btn-logout:hover {
-  border-color: #ffffff;
-  color: #ffffff;
+.input.has-content {
+  width: 240px;
+  border-radius: 6px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.55);
 }
 
-.auth-group {
+.user-section {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.btn-login-link {
-  background: none;
-  border: none;
-  color: #e5e5e5;
-  font-weight: 500;
-  cursor: pointer;
-  transition: 0.3s;
+.user-name {
+  color: #f0f0f0;
+  font-size: 0.88rem;
+  font-weight: 600;
 }
 
-.btn-login-link:hover {
-  color: #ffffff;
-}
-
-.btn-primary {
-  background: #e50914;  /* Vermelho Netflix */
-  color: #ffffff;
-  padding: 8px 20px;
-  border-radius: 6px;
+.logout-btn,
+.login-btn {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #f3f3f3;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 7px;
+  padding: 7px 12px;
+  font-size: 0.82rem;
   font-weight: 700;
-  transition: 0.3s;
+  text-decoration: none;
+  transition: all 0.2s ease;
 }
 
-.btn-primary:hover {
-  filter: brightness(1.1);
-  transform: translateY(-2px);
+.logout-btn:hover,
+.login-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.36);
 }
 
-/* Responsivo */
-@media (max-width: 768px) {
-  .netflix-nav-links {
-    display: none;  /* Esconde links em mobile, use menu hamburger se quiser */
+@media (max-width: 900px) {
+  .navbar-content {
+    padding: 0 14px;
+    gap: 14px;
+  }
+
+  .nav-links-container {
+    display: none;
+  }
+
+  .input:focus,
+  .icon:focus ~ .input {
+    width: 180px;
+  }
+
+  .input.has-content {
+    width: 180px;
+  }
+
+  .user-name {
+    display: none;
   }
 }
-
-.input-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
-  position: relative;
-}
-
-.input {
-  border-style: none;
-  height: 50px;
-  width: 50px;
-  padding: 10px;
-  outline: none;
-  border-radius: 50%;
-  transition: 0.5s ease-in-out;
-  background-color: #00000000;
-  box-shadow: 0px 0px 3px #f7f7f700;
-  padding-right: 40px;
-  color: #fff;
-}
-
-.input::placeholder,
-.input {
-  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
-    "Lucida Sans", Arial, sans-serif;
-  font-size: 17px;
-}
-
-.input::placeholder {
-  color: #8f8f8f;
-}
-
-.icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  right: 0px;
-  cursor: pointer;
-  width: 50px;
-  height: 50px;
-  outline: none;
-  border-style: none;
-  border-radius: 50%;
-  pointer-events: painted;
-  background-color: transparent;
-  transition: 0.2s linear;
-}
-
-.icon:focus ~ .input,
-.input:focus {
-  box-shadow: none;
-  width: 250px;
-  border-radius: 0px;
-  background-color: transparent;
-  border-bottom: 3px solid #ffffff;
-  transition: all 500ms cubic-bezier(0, 0.11, 0.35, 2);
-}
-

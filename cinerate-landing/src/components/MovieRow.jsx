@@ -37,9 +37,9 @@ function MovieRow({ title, items, onItemClick }) {
     const track = trackRef.current;
     if (!track) return;
 
-    const amount = Math.max(track.clientWidth * 0.85, 320);
+    const scrollAmount = Math.max(track.clientWidth * 0.85, 320);
     track.scrollBy({
-      left: direction === 'left' ? -amount : amount,
+      left: direction === 'left' ? -scrollAmount : scrollAmount,
       behavior: 'smooth'
     });
   };
@@ -49,14 +49,14 @@ function MovieRow({ title, items, onItemClick }) {
       <h2 className="movie-row-title">{title}</h2>
 
       {items.length === 0 ? (
-        <p className="movie-row-empty">Sem titulos nesta categoria.</p>
+        <p className="movie-row-empty">No titles available in this section.</p>
       ) : (
         <div className="movie-row-slider">
           <button
             type="button"
             className={`movie-row-arrow left ${!canScrollLeft ? 'hidden' : ''}`}
             onClick={() => scrollTrack('left')}
-            aria-label={`Voltar na linha ${title}`}
+            aria-label={`Scroll left on row ${title}`}
           >
             &lt;
           </button>
@@ -70,11 +70,11 @@ function MovieRow({ title, items, onItemClick }) {
                 onClick={() => onItemClick(item)}
               >
                 <div className="movie-row-poster">
-                  <img src={item.imagem} alt={item.titulo} loading="lazy" />
+                  <img src={item.imageUrl} alt={item.title} loading="lazy" />
                 </div>
                 <div className="movie-row-meta">
-                  <strong>{item.titulo}</strong>
-                  <span>Nota {item.voto > 0 ? item.voto.toFixed(1) : 'N/A'}</span>
+                  <strong>{item.title}</strong>
+                  <span>Score {item.rating > 0 ? item.rating.toFixed(1) : 'N/A'}</span>
                 </div>
               </button>
             ))}
@@ -84,7 +84,7 @@ function MovieRow({ title, items, onItemClick }) {
             type="button"
             className={`movie-row-arrow right ${!canScrollRight ? 'hidden' : ''}`}
             onClick={() => scrollTrack('right')}
-            aria-label={`Avancar na linha ${title}`}
+            aria-label={`Scroll right on row ${title}`}
           >
             &gt;
           </button>

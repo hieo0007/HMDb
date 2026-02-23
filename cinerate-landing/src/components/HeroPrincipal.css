@@ -1,0 +1,251 @@
+.hero-container-main {
+  width: 100%;
+  max-width: 1280px;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  margin: 20px auto;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #050505;
+}
+
+.slide-principal {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #000;
+}
+
+.hero-trailer-frame {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+  pointer-events: none;
+}
+
+.hero-volume {
+  --color: #ffffff;
+  --size: 22px;
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 5;
+  width: 38px;
+  height: 38px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(3px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: var(--size);
+  user-select: none;
+  fill: var(--color);
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.hero-volume:hover {
+  border-color: rgba(255, 255, 255, 0.35);
+  background: rgba(0, 0, 0, 0.38);
+}
+
+.hero-volume:focus,
+.hero-volume:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+.hero-volume .mute {
+  position: absolute;
+  animation: hero-volume-fill 0.5s;
+}
+
+.hero-volume .voice {
+  position: absolute;
+  display: none;
+  animation: hero-volume-fill 0.5s;
+}
+
+.hero-volume input:checked ~ .mute {
+  display: none;
+}
+
+.hero-volume input:checked ~ .voice {
+  display: block;
+}
+
+.hero-volume input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+@keyframes hero-volume-fill {
+  0% {
+    transform: rotate(0deg) scale(0);
+    opacity: 0;
+  }
+
+  50% {
+    transform: rotate(-10deg) scale(1.2);
+  }
+}
+
+.hero-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 42px;
+  height: 76px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 8px;
+  background: rgba(5, 5, 5, 0.7);
+  color: #fff;
+  font-size: 1.9rem;
+  line-height: 1;
+  z-index: 4;
+  display: grid;
+  place-items: center;
+  transition: all 0.2s ease;
+}
+
+.hero-arrow.left {
+  left: 14px;
+}
+
+.hero-arrow.right {
+  right: 14px;
+}
+
+.hero-arrow:hover {
+  background: rgba(229, 9, 20, 0.88);
+  border-color: rgba(229, 9, 20, 0.95);
+}
+
+.gradient-overlay-hero {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  display: flex;
+  align-items: flex-end;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.05) 52%, rgba(0, 0, 0, 0.88) 100%);
+}
+
+.hero-main-info {
+  width: 100%;
+  padding: 18px 22px;
+  pointer-events: auto;
+}
+
+.duration-hero {
+  display: inline-block;
+  padding: 3px 7px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.72);
+  color: #fff;
+  font-size: 0.84rem;
+}
+
+.hero-main-info h2 {
+  margin: 8px 0 4px;
+  color: #fff;
+  font-size: 2rem;
+  line-height: 1.1;
+}
+
+.hero-main-info p {
+  margin: 0;
+  color: #d0d0d0;
+  font-size: 1rem;
+}
+
+.hero-indicators {
+  margin-top: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hero-indicator {
+  position: relative;
+  width: 52px;
+  height: 5px;
+  border: 0;
+  border-radius: 999px;
+  overflow: hidden;
+  padding: 0;
+  background: rgba(255, 255, 255, 0.28);
+}
+
+.hero-indicator-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0;
+  background: #f5c518;
+}
+
+.hero-indicator.active .hero-indicator-fill {
+  animation: hero-progress var(--rotation-ms, 8000ms) linear forwards;
+}
+
+@keyframes hero-progress {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 100%;
+  }
+}
+
+@media (max-width: 980px) {
+  .hero-container-main {
+    aspect-ratio: auto;
+    height: auto;
+  }
+
+  .slide-principal {
+    aspect-ratio: 16 / 9;
+  }
+
+  .hero-arrow {
+    width: 34px;
+    height: 62px;
+    font-size: 1.5rem;
+  }
+
+  .hero-arrow.left {
+    left: 8px;
+  }
+
+  .hero-arrow.right {
+    right: 8px;
+  }
+
+  .hero-volume {
+    top: 10px;
+    right: 10px;
+    width: 34px;
+    height: 34px;
+    --size: 19px;
+  }
+
+  .hero-main-info h2 {
+    font-size: 1.35rem;
+  }
+
+  .hero-main-info p {
+    font-size: 0.92rem;
+  }
+
+  .hero-indicator {
+    width: 38px;
+  }
+}

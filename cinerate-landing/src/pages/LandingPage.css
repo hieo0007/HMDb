@@ -1,0 +1,114 @@
+.landing-page {
+  min-height: calc(100vh - 70px);
+  display: flex;
+  flex-direction: column;
+  background: #090b12;
+}
+
+.landing-container {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 64px 24px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(229, 9, 20, 0.2) 0%, rgba(229, 9, 20, 0) 42%),
+    radial-gradient(circle at 88% 82%, rgba(85, 120, 255, 0.16) 0%, rgba(85, 120, 255, 0) 42%),
+    linear-gradient(140deg, #080a11 0%, #101525 55%, #090b12 100%);
+}
+
+.landing-overlay {
+  width: min(900px, 100%);
+  padding: clamp(28px, 5vw, 48px);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(10, 13, 22, 0.64);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 16px 50px rgba(0, 0, 0, 0.45);
+}
+
+.landing-hero {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  text-align: center;
+  align-items: center;
+}
+
+.landing-hero h1 {
+  margin: 0;
+  max-width: 18ch;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+}
+
+.landing-hero p {
+  margin: 0;
+  max-width: 62ch;
+  color: #c7cedc;
+  font-size: clamp(1rem, 1.8vw, 1.15rem);
+  line-height: 1.55;
+}
+
+.landing-buttons {
+  margin-top: 8px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.btn-start,
+.btn-secondary {
+  height: 46px;
+  border-radius: 999px;
+  padding: 0 22px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  transition: all 0.25s ease;
+}
+
+.btn-start {
+  color: #fff;
+  background: linear-gradient(135deg, #f21722 0%, #b80d16 100%);
+  box-shadow: 0 8px 20px rgba(229, 9, 20, 0.32);
+}
+
+.btn-start:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.06);
+}
+
+.btn-secondary {
+  color: #f1f3f8;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 640px) {
+  .landing-container {
+    padding: 42px 16px;
+  }
+
+  .landing-overlay {
+    border-radius: 18px;
+  }
+
+  .landing-buttons {
+    width: 100%;
+  }
+
+  .btn-start,
+  .btn-secondary {
+    width: 100%;
+  }
+}

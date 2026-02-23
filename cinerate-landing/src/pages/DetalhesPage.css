@@ -1,0 +1,149 @@
+/* Layout Principal */
+.imdb-clone-container {
+  background: #000;
+  color: #fff;
+  min-height: 100vh;
+  padding: 40px 6%;
+  font-family: 'Roboto', Arial, sans-serif;
+}
+
+.imdb-header-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 20px;
+  margin-top: 40px;
+}
+
+
+.imdb-header-main h1 {
+  font-size: 2.5rem;
+  margin: 0;
+}
+
+/* Grid de Mídia (Poster, Trailer, Lateral) */
+.media-showcase {
+  display: grid;
+  grid-template-columns: 280px 1fr 200px;
+  gap: 4px;
+  height: 420px;
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.main-poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.main-trailer {
+  background: #000;
+}
+
+.main-trailer iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+/* Painel Lateral (Onde Assistir) */
+.side-media-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.watch-section {
+  flex: 2;
+  background: #252525;
+  padding: 15px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.watch-title {
+  font-size: 0.7rem;
+  color: #f5c518;
+  font-weight: bold;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+}
+
+.providers-list {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.provider-link {
+  transition: transform 0.2s;
+}
+
+.provider-link:hover {
+  transform: scale(1.15);
+}
+
+.providers-list img {
+  width: 45px;
+  height: 45px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.side-card-watchlist {
+  flex: 1;
+  background: #252525;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.side-card-watchlist:hover {
+  background: #333;
+}
+
+/* Informações Técnicas */
+.synopsis-text {
+  margin: 20px 0;
+  line-height: 1.6;
+  color: #ccc;
+  font-size: 1.1rem;
+  max-width: 900px;
+}
+
+.crew-item {
+  border-bottom: 1px solid #222;
+  padding: 15px 0;
+  display: flex;
+  gap: 15px;
+}
+
+.crew-item strong {
+  color: #fff;
+  min-width: 80px;
+}
+
+.crew-item span {
+  color: #5799ef;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  color: #aaa;
+  cursor: pointer;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.back-btn:hover {
+  color: #fff;
+}

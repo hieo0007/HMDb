@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.env
+.env.*
+
+cinerate-landing/node_modules/
+cinerate-landing/dist/
+cinerate-landing/.env
+cinerate-landing/.env.*
+
+*.log
+.DS_Store
+Thumbs.db
+.vscode/

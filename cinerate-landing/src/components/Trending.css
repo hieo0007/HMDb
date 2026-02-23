@@ -1,0 +1,20 @@
+.trending-grid, .features-grid {
+  display: grid;
+  /* Isso força 4 colunas de tamanhos iguais */
+  grid-template-columns: repeat(4, 1fr); 
+  gap: 30px;
+  width: 100%;
+}
+
+/* Se a tela for pequena (celular), eles ficam um embaixo do outro */
+@media (max-width: 900px) {
+  .trending-grid, .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .trending-grid, .features-grid {
+    grid-template-columns: 1fr;
+  }
+}

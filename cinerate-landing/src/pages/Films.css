@@ -1,0 +1,38 @@
+.films-page {
+  background: #0a0a0a;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.films-main {
+  padding-top: 80px;
+  position: relative;
+  z-index: 2;
+}
+
+.rows-container {
+  max-width: 1400px;
+  margin: 20px auto 0;
+  padding: 0 40px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+
+.loading-state {
+  margin-top: 6px;
+  color: #d0d0d0;
+  font-size: 0.95rem;
+}
+
+.loading-state.error {
+  color: #ff7b7b;
+}
+
+@media (max-width: 900px) {
+  .rows-container {
+    padding: 0 16px 28px;
+    gap: 20px;
+  }
+}

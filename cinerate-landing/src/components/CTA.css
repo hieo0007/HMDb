@@ -1,0 +1,10 @@
+.cta {
+  background: linear-gradient(90deg, #7b2ff7, #2f80ed);
+  padding: 60px 0;
+  text-align: center;
+  border-radius: 15px;
+  margin: 80px auto;
+  width: 90%;
+  max-width: 1200px;
+}
+.cta h2 { margin-bottom: 20px; font-size: 2rem; }

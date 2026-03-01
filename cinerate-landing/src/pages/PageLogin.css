@@ -4,66 +4,208 @@
   place-items: center;
   padding: 20px;
   background:
-    radial-gradient(circle at 20% 20%, rgba(229, 9, 20, 0.14), transparent 42%),
-    radial-gradient(circle at 80% 80%, rgba(74, 124, 247, 0.16), transparent 42%),
+    radial-gradient(circle at 20% 20%, rgba(160, 154, 154, 0), transparent 42%),
+    radial-gradient(circle at 80% 80%, rgba(57, 84, 153, 0), transparent 42%),
     #090b12;
 }
 
-.login-card {
-  width: min(420px, 100%);
-  padding: 28px;
-  border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: rgba(11, 13, 20, 0.85);
+.login-shell {
+  width: min(450px, 100%);
 }
 
-.login-card h1 {
-  margin: 0 0 8px;
-  font-size: 1.7rem;
-}
-
-.login-card p {
-  margin: 0 0 20px;
-  color: #bcc3d4;
-}
-
-.login-form {
+.uiverse-form {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  background-color: #1f1f1f;
+  padding: 30px;
+  width: 100%;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.068);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
+    'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
-.login-form label {
-  color: #d8deea;
-  font-size: 0.9rem;
+.uiverse-form ::placeholder {
+  color: #aaa;
+}
+
+.uiverse-flex-column > label {
+  color: #f1f1f1;
   font-weight: 600;
 }
 
-.login-form input {
-  height: 44px;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  background: rgba(255, 255, 255, 0.04);
-  color: #ffffff;
-  padding: 0 12px;
+.uiverse-inputForm {
+  border: 1.5px solid #333;
+  border-radius: 10px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  transition: 0.2s ease-in-out;
+  background-color: #2b2b2b;
 }
 
-.login-form input:focus {
-  outline: 0;
-  border-color: rgba(255, 255, 255, 0.46);
+.uiverse-inputForm svg {
+  fill: #f1f1f1;
+  flex-shrink: 0;
 }
 
-.login-form button {
-  margin-top: 4px;
-  height: 44px;
-  border-radius: 8px;
+.uiverse-input {
+  margin-left: 10px;
+  border-radius: 10px;
+  border: none;
+  width: 100%;
+  height: 100%;
+  background-color: #2b2b2b;
+  color: #f1f1f1;
+  font-size: 15px;
+}
+
+.uiverse-input:focus {
+  outline: none;
+}
+
+.uiverse-inputForm:focus-within {
+  border: 1.5px solid #2d79f3;
+}
+
+.uiverse-flex-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+.uiverse-remember {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.uiverse-remember label {
+  font-size: 14px;
+  color: #f1f1f1;
+  font-weight: 400;
+}
+
+.uiverse-remember input {
+  accent-color: #2d79f3;
+  width: 16px;
+  height: 16px;
+  margin: 0;
+}
+
+.uiverse-inline-link {
+  font-size: 14px;
+  color: #2d79f3;
+  font-weight: 500;
+  cursor: pointer;
+  background: transparent;
   border: 0;
-  background: linear-gradient(135deg, #ef1f2a, #b40d16);
-  color: #ffffff;
-  font-weight: 700;
+  padding: 0;
+}
+
+.uiverse-button-submit {
+  margin: 20px 0 10px;
+  background-color: #2d79f3;
+  border: none;
+  color: white;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 10px;
+  height: 50px;
+  width: 100%;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.uiverse-button-submit:hover {
+  background-color: #2668d4;
+}
+
+.uiverse-p {
+  text-align: center;
+  color: #f1f1f1;
+  font-size: 14px;
+  margin: 5px 0;
+}
+
+.uiverse-p .uiverse-inline-link {
+  margin-left: 5px;
+}
+
+.uiverse-line {
+  position: relative;
+  color: #c8cfdb;
+}
+
+.uiverse-line::before,
+.uiverse-line::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 35%;
+  border-top: 1px solid #333;
+}
+
+.uiverse-line::before {
+  left: 0;
+}
+
+.uiverse-line::after {
+  right: 0;
+}
+
+.uiverse-social-row {
+  width: 100%;
+}
+
+.uiverse-btn {
+  margin-top: 10px;
+  width: 100%;
+  height: 50px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 500;
+  gap: 10px;
+  border: 1px solid #333;
+  background-color: #2b2b2b;
+  color: #f1f1f1;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+}
+
+.uiverse-btn:hover {
+  border: 1px solid #2d79f3;
 }
 
 .login-error {
   color: #ff8f8f;
   font-size: 0.85rem;
+}
+
+@media (max-width: 540px) {
+  .uiverse-form {
+    padding: 22px;
+  }
+
+  .uiverse-flex-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .uiverse-social-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .uiverse-social-row .uiverse-btn {
+    margin-top: 0;
+  }
 }

@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import BooksHero from '../components/BooksHero';
 import HeroPrincipal from '../components/HeroPrincipal';
 import MovieRow from '../components/MovieRow';
 import {
@@ -14,6 +15,8 @@ const DEFAULT_POSTER = 'https://via.placeholder.com/500x750?text=No+Poster';
 const DEFAULT_BOOK_COVER = 'https://via.placeholder.com/500x750?text=No+Cover';
 const OPEN_LIBRARY_BASE_URL = 'https://openlibrary.org';
 const OPEN_LIBRARY_COVER_BASE_URL = 'https://covers.openlibrary.org/b/id';
+const BOOKS_CACHE_PREFIX = 'hmdb:books-row:v1';
+const BOOKS_CACHE_TTL_MS = 1000 * 60 * 30;
 const AWARD_WINNER_FALLBACK_IDS = [13, 122, 98, 597, 424, 238, 240, 496243, 545611, 872585, 1422];
 const AWARD_NOMINATED_FALLBACK_IDS = [278, 680, 857, 313369, 37799, 7345, 76341, 286217, 244786, 194];
 const STATIC_BOOK_FALLBACK = {
@@ -219,7 +222,7 @@ const normalizeOpenLibraryItem = (item, index) => ({
   title: item.title || 'Title unavailable',
   rating: 0,
   imageUrl: item.cover_i
-    ? `${OPEN_LIBRARY_COVER_BASE_URL}/${item.cover_i}-L.jpg`
+    ? `${OPEN_LIBRARY_COVER_BASE_URL}/${item.cover_i}-M.jpg`
     : DEFAULT_BOOK_COVER,
   externalUrl: item.key ? `${OPEN_LIBRARY_BASE_URL}${item.key}` : ''
 });
@@ -234,30 +237,76 @@ const pickStaticBookFallback = (query) => {
 };
 
 const fetchBooksFromOpenLibrary = async ({ query, signal }) => {
-  const url = `${OPEN_LIBRARY_BASE_URL}/search.json?q=${encodeURIComponent(query)}&limit=20`;
+  const url = `${OPEN_LIBRARY_BASE_URL}/search.json?q=${encodeURIComponent(query)}&limit=12`;
   const data = await fetchJson(url, signal);
   return (data.docs || []).map(normalizeOpenLibraryItem);
 };
 
+const readCachedBooksRow = ({ title, query, orderBy }) => {
+  if (typeof window === 'undefined') return null;
+
+  const cacheKey = `${BOOKS_CACHE_PREFIX}:${query}:${orderBy}`;
+  try {
+    const cachedRaw = sessionStorage.getItem(cacheKey);
+    if (!cachedRaw) return null;
+
+    const parsed = JSON.parse(cachedRaw);
+    const isExpired = !parsed?.timestamp || Date.now() - parsed.timestamp > BOOKS_CACHE_TTL_MS;
+    if (isExpired) {
+      sessionStorage.removeItem(cacheKey);
+      return null;
+    }
+
+    if (!Array.isArray(parsed.items) || parsed.items.length === 0) return null;
+    return { title, items: parsed.items };
+  } catch {
+    return null;
+  }
+};
+
+const writeCachedBooksRow = ({ query, orderBy, items }) => {
+  if (typeof window === 'undefined' || !Array.isArray(items) || items.length === 0) return;
+
+  const cacheKey = `${BOOKS_CACHE_PREFIX}:${query}:${orderBy}`;
+  try {
+    sessionStorage.setItem(
+      cacheKey,
+      JSON.stringify({
+        timestamp: Date.now(),
+        items
+      })
+    );
+  } catch {
+    // Ignore storage errors (private mode/quota).
+  }
+};
+
 const fetchBooksRow = async ({ title, query, orderBy = 'relevance', signal }) => {
+  const cachedRow = readCachedBooksRow({ title, query, orderBy });
+  if (cachedRow) return cachedRow;
+
   try {
     const encodedQuery = encodeURIComponent(query);
-    const url = `${BOOKS_API_BASE_URL}/volumes?q=${encodedQuery}&startIndex=0&maxResults=20&printType=books&orderBy=${orderBy}`;
+    const url = `${BOOKS_API_BASE_URL}/volumes?q=${encodedQuery}&startIndex=0&maxResults=12&printType=books&orderBy=${orderBy}`;
     const data = await fetchJson(url, signal);
-    return {
+    const row = {
       title,
       items: (data.items || []).map(normalizeBookItem)
     };
+    writeCachedBooksRow({ query, orderBy, items: row.items });
+    return row;
   } catch (error) {
     if (error.name === 'AbortError') throw error;
 
     try {
       const openLibraryItems = await fetchBooksFromOpenLibrary({ query, signal });
       if (openLibraryItems.length > 0) {
-        return {
+        const row = {
           title,
           items: openLibraryItems
         };
+        writeCachedBooksRow({ query, orderBy, items: row.items });
+        return row;
       }
     } catch (fallbackError) {
       if (fallbackError.name === 'AbortError') throw fallbackError;
@@ -458,11 +507,24 @@ function Films({ initialTheme, globalSearch = '' }) {
             })
           ]);
         } else {
-          nextRows = await Promise.all([
-            fetchBooksRow({ title: 'Romance', query: 'subject:romance', signal }),
-            fetchBooksRow({ title: 'Drama', query: 'subject:drama', signal }),
-            fetchBooksRow({ title: 'Fantasy', query: 'subject:fantasy', signal })
-          ]);
+          const bookConfigs = [
+            { title: 'Romance', query: 'subject:romance' },
+            { title: 'Drama', query: 'subject:drama' },
+            { title: 'Fantasy', query: 'subject:fantasy' }
+          ];
+          setRows(bookConfigs.map(({ title }) => ({ title, items: [] })));
+
+          await Promise.all(
+            bookConfigs.map(async ({ title, query }) => {
+              const loadedRow = await fetchBooksRow({ title, query, signal });
+              if (signal.aborted) return;
+
+              setRows((currentRows) =>
+                currentRows.map((row) => (row.title === loadedRow.title ? loadedRow : row))
+              );
+            })
+          );
+          return;
         }
 
         setRows(nextRows);
@@ -482,24 +544,49 @@ function Films({ initialTheme, globalSearch = '' }) {
     return () => controller.abort();
   }, [debouncedSearch, initialTheme]);
 
+  const featuredBooks = useMemo(() => {
+    if (initialTheme !== 'livros') return [];
+
+    const seenIds = new Set();
+    const list = [];
+
+    for (const row of rows) {
+      for (const item of row.items) {
+        if (seenIds.has(item.id)) continue;
+        seenIds.add(item.id);
+        list.push({
+          ...item,
+          category: row.title
+        });
+      }
+    }
+
+    return list.slice(0, 8);
+  }, [initialTheme, rows]);
+
   const hasResults = rows.some((row) => row.items.length > 0);
 
   return (
     <div className={`tema-${initialTheme} films-page`}>
-      <div className="video-background">
-        <video autoPlay loop muted playsInline className="video-content">
-          <source
-            src="https://assets.mixkit.co/videos/preview/mixkit-abstract-dark-particles-motion-background-overlay-48762-large.mp4"
-            type="video/mp4"
-          />
-        </video>
-        <div className="video-overlay-dark" />
-      </div>
+      {initialTheme !== 'livros' && (
+        <div className="video-background">
+          <video autoPlay loop muted playsInline className="video-content">
+            <source
+              src="https://assets.mixkit.co/videos/preview/mixkit-abstract-dark-particles-motion-background-overlay-48762-large.mp4"
+              type="video/mp4"
+            />
+          </video>
+          <div className="video-overlay-dark" />
+        </div>
+      )}
 
       <main className="films-main">
         {initialTheme !== 'livros' && <HeroPrincipal key={initialTheme} theme={initialTheme} />}
+        {initialTheme === 'livros' && featuredBooks.length > 0 && (
+          <BooksHero items={featuredBooks} onSelect={handleItemClick} />
+        )}
 
-        <div className="rows-container">
+        <div className={`rows-container ${initialTheme === 'livros' ? 'rows-container-books' : ''}`}>
           {rows.map((row) => (
             <MovieRow key={row.title} title={row.title} items={row.items} onItemClick={handleItemClick} />
           ))}

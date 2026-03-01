@@ -188,7 +188,7 @@
   left: 0;
   height: 100%;
   width: 0;
-  background: #f5c518;
+  background: #fc0000;
 }
 
 .hero-indicator.active .hero-indicator-fill {
@@ -209,6 +209,7 @@
   .hero-container-main {
     aspect-ratio: auto;
     height: auto;
+    margin: 14px auto;
   }
 
   .slide-principal {
@@ -247,5 +248,40 @@
 
   .hero-indicator {
     width: 38px;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-container-main {
+    border-radius: 0;
+    margin: 10px -16px 0;
+    width: auto;
+  }
+
+  .hero-main-info {
+    padding: 14px 14px 12px;
+  }
+
+  .hero-main-info h2 {
+    font-size: 1.05rem;
+  }
+
+  .hero-main-info p {
+    font-size: 0.82rem;
+    line-height: 1.3;
+  }
+
+  .hero-arrow {
+    display: none;
+  }
+
+  .hero-indicators {
+    margin-top: 10px;
+    gap: 6px;
+  }
+
+  .hero-indicator {
+    width: 26px;
+    height: 4px;
   }
 }

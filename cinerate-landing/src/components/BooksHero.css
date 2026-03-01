@@ -1,0 +1,336 @@
+.books-hero {
+  width: 100%;
+  max-width: 1400px;
+  margin: 10px auto 0;
+  padding: 0 40px;
+}
+
+.books-hero-stage {
+  position: relative;
+  min-height: 420px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: #0e1320;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.books-hero-stage::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--book-image) center / cover no-repeat;
+  transform: scale(1.15);
+  filter: blur(18px) brightness(0.42);
+}
+
+.books-hero-stage::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(94deg, rgba(6, 8, 15, 0.96) 7%, rgba(6, 8, 15, 0.74) 44%, rgba(6, 8, 15, 0.42) 100%),
+    radial-gradient(circle at 72% 28%, rgba(229, 9, 20, 0.22), transparent 42%);
+}
+
+.books-hero-inner {
+  position: relative;
+  z-index: 3;
+  min-height: 420px;
+  padding: 34px 34px 88px;
+  display: grid;
+  grid-template-columns: 1.1fr minmax(180px, 300px);
+  gap: 24px;
+  align-items: end;
+}
+
+.books-hero-info {
+  max-width: 620px;
+}
+
+.books-hero-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 999px;
+  padding: 6px 12px;
+  background: rgba(239, 31, 42, 0.2);
+  border: 1px solid rgba(239, 31, 42, 0.56);
+  color: #ffb1b6;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.books-hero-info h2 {
+  margin: 12px 0 10px;
+  color: #ffffff;
+  font-size: clamp(1.8rem, 4vw, 2.95rem);
+  line-height: 1.02;
+  text-wrap: balance;
+}
+
+.books-hero-info p {
+  margin: 0;
+  max-width: 58ch;
+  color: #d8deeb;
+  line-height: 1.55;
+  font-size: 1rem;
+}
+
+.books-hero-actions {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.books-hero-btn {
+  border: 0;
+  border-radius: 9px;
+  background: linear-gradient(135deg, #ef1f2a 0%, #b40d16 100%);
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  padding: 11px 16px;
+}
+
+.books-hero-score {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 9px;
+  padding: 9px 12px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #f0f3f9;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.books-hero-cover-wrap {
+  position: relative;
+  justify-self: end;
+  width: min(280px, 100%);
+  aspect-ratio: 2 / 3;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(255, 255, 255, 0.16);
+}
+
+.books-hero-cover-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.books-hero-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+  width: 40px;
+  height: 72px;
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  border-radius: 9px;
+  background: rgba(5, 5, 8, 0.62);
+  color: #fff;
+  font-size: 1.8rem;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+}
+
+.books-hero-arrow.left {
+  left: 14px;
+}
+
+.books-hero-arrow.right {
+  right: 14px;
+}
+
+.books-hero-arrow:hover {
+  border-color: rgba(239, 31, 42, 0.9);
+  background: rgba(239, 31, 42, 0.24);
+}
+
+.books-hero-indicators {
+  position: absolute;
+  left: 34px;
+  bottom: 22px;
+  z-index: 6;
+  display: flex;
+  gap: 8px;
+}
+
+.books-hero-indicator {
+  width: 40px;
+  height: 5px;
+  border: 0;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.28);
+}
+
+.books-hero-indicator span {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: #ef1f2a;
+}
+
+.books-hero-indicator.active span {
+  animation: books-hero-progress var(--rotation-ms, 9000ms) linear forwards;
+}
+
+.books-hero-thumbs {
+  position: absolute;
+  right: 28px;
+  bottom: 16px;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.books-hero-thumb {
+  width: 58px;
+  height: 78px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  overflow: hidden;
+  padding: 0;
+  opacity: 0.75;
+}
+
+.books-hero-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.books-hero-thumb.active {
+  opacity: 1;
+  border-color: rgba(239, 31, 42, 0.9);
+}
+
+@keyframes books-hero-progress {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 100%;
+  }
+}
+
+@media (max-width: 980px) {
+  .books-hero {
+    padding: 0 16px;
+  }
+
+  .books-hero-stage,
+  .books-hero-inner {
+    min-height: 340px;
+  }
+
+  .books-hero-inner {
+    padding: 24px 24px 74px;
+    grid-template-columns: 1fr 185px;
+  }
+
+  .books-hero-cover-wrap {
+    width: 185px;
+  }
+
+  .books-hero-info h2 {
+    font-size: clamp(1.45rem, 4.1vw, 2.15rem);
+  }
+
+  .books-hero-arrow {
+    width: 34px;
+    height: 62px;
+  }
+
+  .books-hero-arrow.left {
+    left: 8px;
+  }
+
+  .books-hero-arrow.right {
+    right: 8px;
+  }
+
+  .books-hero-thumbs {
+    right: 20px;
+    gap: 8px;
+  }
+
+  .books-hero-thumb {
+    width: 46px;
+    height: 64px;
+  }
+}
+
+@media (max-width: 640px) {
+  .books-hero {
+    margin-top: 6px;
+    padding: 0;
+  }
+
+  .books-hero-stage {
+    border-radius: 0;
+    border-left: 0;
+    border-right: 0;
+    min-height: 278px;
+  }
+
+  .books-hero-inner {
+    min-height: 278px;
+    padding: 18px 14px 44px;
+    grid-template-columns: 1fr;
+  }
+
+  .books-hero-info h2 {
+    margin-top: 10px;
+    margin-bottom: 8px;
+    font-size: 1.38rem;
+  }
+
+  .books-hero-info p {
+    font-size: 0.86rem;
+    line-height: 1.45;
+  }
+
+  .books-hero-actions {
+    margin-top: 14px;
+  }
+
+  .books-hero-btn {
+    padding: 9px 13px;
+    font-size: 0.82rem;
+  }
+
+  .books-hero-score {
+    padding: 8px 10px;
+    font-size: 0.78rem;
+  }
+
+  .books-hero-cover-wrap,
+  .books-hero-thumbs,
+  .books-hero-arrow {
+    display: none;
+  }
+
+  .books-hero-indicators {
+    left: 14px;
+    bottom: 12px;
+  }
+
+  .books-hero-indicator {
+    width: 28px;
+    height: 4px;
+  }
+}

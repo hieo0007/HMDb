@@ -162,3 +162,28 @@
     right: -8px;
   }
 }
+
+@media (max-width: 768px) {
+  .movie-row-track {
+    gap: 10px;
+    padding-bottom: 6px;
+  }
+
+  .movie-row-card {
+    width: 126px;
+    min-width: 126px;
+    max-width: 126px;
+  }
+
+  .movie-row-poster {
+    height: 190px;
+  }
+
+  .movie-row-title {
+    font-size: 1.05rem;
+  }
+
+  .movie-row-arrow {
+    display: none;
+  }
+}

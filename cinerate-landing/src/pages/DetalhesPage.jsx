@@ -87,7 +87,7 @@ function DetailsPage() {
           <div className="rating-item">
             <span className="rating-label">Community Score</span>
             <div className="rating-score">
-              <span className="star-icon" style={{ color: '#f5c518', marginRight: '5px' }}>
+              <span className="star-icon" style={{ color: '#ef1f2a', marginRight: '5px' }}>
                 *
               </span>
               <strong style={{ fontSize: '1.5rem' }}>{details.vote_average?.toFixed(1) || 'N/A'}</strong>

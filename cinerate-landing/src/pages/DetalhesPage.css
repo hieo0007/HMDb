@@ -1,6 +1,8 @@
 .details-page-container {
   min-height: 100vh;
   padding: 40px 6%;
+  max-width: 1500px;
+  margin: 0 auto;
   background: #000000;
   color: #ffffff;
 }
@@ -17,12 +19,40 @@
 .details-page-header h1 {
   margin: 0;
   font-size: 2.5rem;
+  line-height: 1.1;
+}
+
+.title-block {
+  min-width: 0;
 }
 
 .sub-header-info {
   margin-top: 8px;
   color: #bdbdbd;
   font-size: 0.95rem;
+}
+
+.ratings-block {
+  margin-left: auto;
+}
+
+.rating-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 5px;
+}
+
+.rating-label {
+  color: #a5a5a5;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.rating-score {
+  display: flex;
+  align-items: baseline;
 }
 
 .media-showcase {
@@ -78,7 +108,7 @@
 
 .watch-title {
   margin-bottom: 15px;
-  color: #f5c518;
+  color: #ef1f2a;
   font-size: 0.72rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -167,17 +197,114 @@
 }
 
 @media (max-width: 980px) {
+  .details-page-container {
+    padding: 28px 20px 34px;
+  }
+
+  .details-page-header {
+    margin-top: 16px;
+    margin-bottom: 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
   .details-page-header h1 {
     font-size: 2rem;
+  }
+
+  .ratings-block {
+    margin-left: 0;
+  }
+
+  .rating-item {
+    align-items: flex-start;
   }
 
   .media-showcase {
     height: auto;
     grid-template-columns: 1fr;
-    gap: 12px;
+    gap: 10px;
   }
 
   .main-poster {
     max-width: 280px;
+    margin: 0 auto;
+  }
+
+  .main-trailer {
+    aspect-ratio: 16 / 9;
+  }
+
+  .main-trailer iframe,
+  .trailer-unavailable {
+    height: 100%;
+  }
+
+  .side-media-panel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .watch-section,
+  .side-card-watchlist {
+    min-height: 120px;
+  }
+
+  .synopsis-text {
+    margin: 16px 0;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .details-page-container {
+    padding: 20px 14px 28px;
+  }
+
+  .details-page-header h1 {
+    font-size: 1.55rem;
+  }
+
+  .sub-header-info {
+    font-size: 0.86rem;
+  }
+
+  .main-poster {
+    max-width: 220px;
+  }
+
+  .side-media-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .watch-section {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .provider-list {
+    justify-content: flex-start;
+  }
+
+  .provider-list img {
+    width: 42px;
+    height: 42px;
+  }
+
+  .synopsis-text {
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .crew-item {
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px 0;
+  }
+
+  .crew-item strong {
+    min-width: 0;
   }
 }

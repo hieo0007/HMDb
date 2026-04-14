@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import './Navbar.css';
 
 const USER_STORAGE_KEY = 'user_name';
+const USER_ID_STORAGE_KEY = 'user_id';
 const getStoredUserName = () =>
   localStorage.getItem(USER_STORAGE_KEY) || sessionStorage.getItem(USER_STORAGE_KEY) || '';
 
@@ -35,7 +36,9 @@ function Navbar({ onSearch, searchValue = '' }) {
 
   const handleLogout = () => {
     localStorage.removeItem(USER_STORAGE_KEY);
+    localStorage.removeItem(USER_ID_STORAGE_KEY);
     sessionStorage.removeItem(USER_STORAGE_KEY);
+    sessionStorage.removeItem(USER_ID_STORAGE_KEY);
     setCurrentUserName('');
     setMobileMenuPath('');
     window.dispatchEvent(new Event('hmdb:user-change'));

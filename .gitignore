@@ -7,6 +7,12 @@ cinerate-landing/node_modules/
 cinerate-landing/dist/
 cinerate-landing/.env
 cinerate-landing/.env.*
+backend/node_modules/
+backend/.env
+backend/.env.*
+backend/data/*.sqlite
+backend/data/*.sqlite-shm
+backend/data/*.sqlite-wal
 
 *.log
 .DS_Store

@@ -1,8 +1,14 @@
 .landing-page {
+  --landing-primary: var(--color-primary, #e50914);
+  --landing-primary-soft: #ff3642;
+  --landing-primary-deep: #8f0b12;
+  --landing-text: #ffffff;
+  --landing-text-soft: #c2c7d2;
+  --landing-surface: rgba(7, 8, 11, 0.86);
   min-height: calc(100vh - 70px);
   display: flex;
   flex-direction: column;
-  background: #090b12;
+  background: #050507;
 }
 
 .landing-container {
@@ -15,18 +21,18 @@
   overflow: hidden;
   background:
     radial-gradient(circle at 12% 18%, rgba(229, 9, 20, 0.2) 0%, rgba(229, 9, 20, 0) 42%),
-    radial-gradient(circle at 88% 82%, rgba(85, 120, 255, 0.16) 0%, rgba(85, 120, 255, 0) 42%),
-    linear-gradient(140deg, #080a11 0%, #101525 55%, #090b12 100%);
+    radial-gradient(circle at 82% 80%, rgba(229, 9, 20, 0.07) 0%, rgba(229, 9, 20, 0) 38%),
+    linear-gradient(140deg, #040405 0%, #08090d 55%, #050507 100%);
 }
 
 .landing-overlay {
   width: min(900px, 100%);
   padding: clamp(28px, 5vw, 48px);
   border-radius: 24px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: rgba(10, 13, 22, 0.64);
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  background: var(--landing-surface);
   backdrop-filter: blur(8px);
-  box-shadow: 0 16px 50px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 22px 64px rgba(0, 0, 0, 0.62);
 }
 
 .landing-hero {
@@ -43,13 +49,13 @@
   font-size: clamp(2rem, 5vw, 3.2rem);
   line-height: 1.08;
   letter-spacing: -0.02em;
-  color: #ffffff;
+  color: var(--landing-text);
 }
 
 .landing-hero p {
   margin: 0;
   max-width: 62ch;
-  color: #c7cedc;
+  color: var(--landing-text-soft);
   font-size: clamp(1rem, 1.8vw, 1.15rem);
   line-height: 1.55;
 }
@@ -62,8 +68,8 @@
   justify-content: center;
 }
 
-.btn-start,
-.btn-secondary {
+.landing-buttons .btn-start,
+.landing-buttons .btn-secondary {
   height: 46px;
   border-radius: 999px;
   padding: 0 22px;
@@ -72,25 +78,26 @@
   transition: all 0.25s ease;
 }
 
-.btn-start {
-  color: #fff;
-  background: linear-gradient(135deg, #f21722 0%, #b80d16 100%);
+.landing-buttons .btn-start {
+  color: var(--landing-text);
+  background: linear-gradient(135deg, var(--landing-primary-soft) 0%, var(--landing-primary-deep) 100%);
   box-shadow: 0 8px 20px rgba(229, 9, 20, 0.32);
 }
 
-.btn-start:hover {
+.landing-buttons .btn-start:hover {
   transform: translateY(-2px);
   filter: brightness(1.06);
 }
 
-.btn-secondary {
-  color: #f1f3f8;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+.landing-buttons .btn-secondary {
+  color: #f5f6fa;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
-.btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.12);
+.landing-buttons .btn-secondary:hover {
+  border-color: rgba(229, 9, 20, 0.48);
+  background: rgba(229, 9, 20, 0.16);
   transform: translateY(-2px);
 }
 
@@ -107,8 +114,8 @@
     width: 100%;
   }
 
-  .btn-start,
-  .btn-secondary {
+  .landing-buttons .btn-start,
+  .landing-buttons .btn-secondary {
     width: 100%;
   }
 }

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "buildCommand": "cd cinerate-landing && npm install && npm run build",
-  "outputDirectory": "cinerate-landing/dist",
-  "installCommand": "npm install && cd cinerate-landing && npm install",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "installCommand": "npm install",
   "env": {
     "NODE_ENV": "production"
   },

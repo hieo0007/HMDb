@@ -1,16 +1,16 @@
 .books-hero {
   width: 100%;
-  max-width: 1400px;
-  margin: 10px auto 0;
-  padding: 0 40px;
+  max-width: var(--container-max, 1400px);
+  margin: clamp(0.5rem, 2vw, 1rem) auto 0;
+  padding: 0 var(--container-padding, clamp(1rem, 5vw, 4rem));
 }
 
 .books-hero-stage {
   position: relative;
   min-height: 420px;
-  border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  background: #0e1320;
+  border-radius: 0;
+  border: 0.5px solid #1a1a1a;
+  background: #0D0D0D;
   overflow: hidden;
   isolation: isolate;
 }
@@ -29,18 +29,18 @@
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(94deg, rgba(6, 8, 15, 0.96) 7%, rgba(6, 8, 15, 0.74) 44%, rgba(6, 8, 15, 0.42) 100%),
-    radial-gradient(circle at 72% 28%, rgba(229, 9, 20, 0.22), transparent 42%);
+    linear-gradient(94deg, rgba(13, 13, 13, 0.96) 7%, rgba(13, 13, 13, 0.74) 44%, rgba(13, 13, 13, 0.42) 100%),
+    radial-gradient(circle at 72% 28%, rgba(255, 255, 255, 0.05), transparent 42%);
 }
 
 .books-hero-inner {
   position: relative;
   z-index: 3;
   min-height: 420px;
-  padding: 34px 34px 88px;
+  padding: clamp(1.25rem, 4vw, 2.5rem) clamp(1.25rem, 4vw, 2.5rem) clamp(4rem, 8vw, 6rem);
   display: grid;
   grid-template-columns: 1.1fr minmax(180px, 300px);
-  gap: 24px;
+  gap: clamp(1rem, 3vw, 2rem);
   align-items: end;
 }
 
@@ -52,21 +52,26 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  border-radius: 999px;
+  border-radius: 0;
   padding: 6px 12px;
-  background: rgba(239, 31, 42, 0.2);
-  border: 1px solid rgba(239, 31, 42, 0.56);
-  color: #ffb1b6;
-  font-size: 0.78rem;
+  background: transparent;
+  border: 0.5px solid #333333;
+  color: #999999;
+  font-size: 0.7rem;
   font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
 }
 
 .books-hero-info h2 {
   margin: 12px 0 10px;
   color: #ffffff;
   font-size: clamp(1.8rem, 4vw, 2.95rem);
+  font-family: 'Bebas Neue', 'Black Ops One', sans-serif;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   line-height: 1.02;
   text-wrap: balance;
 }
@@ -74,37 +79,71 @@
 .books-hero-info p {
   margin: 0;
   max-width: 58ch;
-  color: #d8deeb;
+  color: #999999;
   line-height: 1.55;
   font-size: 1rem;
+  font-family: 'JetBrains Mono', monospace;
 }
 
 .books-hero-actions {
-  margin-top: 20px;
+  margin-top: clamp(0.75rem, 2vw, 1.25rem);
   display: flex;
   align-items: center;
-  gap: 12px;
+  flex-wrap: wrap;
+  gap: clamp(0.5rem, 2vw, 1rem);
 }
 
 .books-hero-btn {
-  border: 0;
-  border-radius: 9px;
-  background: linear-gradient(135deg, #ef1f2a 0%, #b40d16 100%);
+  border: 0.5px solid #ffffff;
+  border-radius: 0;
+  background: transparent;
   color: #ffffff;
-  font-size: 0.9rem;
-  font-weight: 800;
-  letter-spacing: 0.01em;
+  font-size: 0.85rem;
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.05em;
   padding: 11px 16px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
+  overflow: hidden;
+}
+
+.books-hero-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  transition: left 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  z-index: -1;
+}
+
+.books-hero-btn:hover {
+  color: #ffffff;
+  border-color: #ffffff;
+}
+
+.books-hero-btn:hover::before {
+  left: 0;
 }
 
 .books-hero-score {
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 9px;
+  border: 0.5px solid #333333;
+  border-radius: 0;
   padding: 9px 12px;
-  background: rgba(255, 255, 255, 0.05);
+  background: transparent;
   color: #f0f3f9;
-  font-size: 0.88rem;
+  font-size: 0.8rem;
   font-weight: 600;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.05em;
+}
+
+.books-hero-mobile-secondary {
+  display: none;
 }
 
 .books-hero-cover-wrap {
@@ -289,7 +328,7 @@
 
   .books-hero-inner {
     min-height: 278px;
-    padding: 18px 14px 44px;
+    padding: clamp(0.75rem, 3vw, 1.125rem) clamp(0.75rem, 3vw, 1.125rem) clamp(1.5rem, 5vw, 2.75rem);
     grid-template-columns: 1fr;
   }
 
@@ -332,5 +371,144 @@
   .books-hero-indicator {
     width: 28px;
     height: 4px;
+  }
+}
+
+@media (max-width: 768px) {
+  .books-hero {
+    width: 100vw;
+    height: 55vh;
+    min-height: 300px;
+    max-height: 620px;
+    margin: 0 calc(50% - 50vw);
+    padding: 0;
+  }
+
+  .books-hero-stage {
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
+    border: 0;
+    border-radius: 0;
+    background: #000000;
+  }
+
+  .books-hero-stage::before {
+    inset: 0;
+    background: var(--book-image) center top / cover no-repeat;
+    filter: brightness(0.58);
+    transform: none;
+  }
+
+  .books-hero-stage::after {
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 18%, #000000 100%);
+  }
+
+  .books-hero-inner {
+    min-height: 100%;
+    height: 100%;
+    padding: clamp(18px, 5vw, 28px) 16px clamp(18px, 6vw, 34px);
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .books-hero-info {
+    max-width: min(34ch, 88vw);
+  }
+
+  .books-hero-pill {
+    padding: clamp(4px, 1.4vw, 6px) clamp(8px, 2.5vw, 10px);
+    border: 0.5px solid rgba(255, 255, 255, 0.28);
+    border-radius: 0;
+    color: rgba(255, 255, 255, 0.6);
+    font-family: 'Space Mono', 'JetBrains Mono', monospace;
+    font-size: clamp(0.58rem, 2.4vw, 0.7rem);
+    letter-spacing: 0.1em;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .books-hero-info h2 {
+    max-width: min(12ch, 78vw);
+    margin: clamp(8px, 2.8vw, 14px) 0 clamp(4px, 1.8vw, 8px);
+    font-size: clamp(2.3rem, 13vw, 4.7rem);
+    line-height: 0.95;
+    letter-spacing: 0.08em;
+  }
+
+  .books-hero-info p {
+    max-width: 34ch;
+    color: rgba(255, 255, 255, 0.6);
+    font-family: 'Space Mono', 'JetBrains Mono', monospace;
+    font-size: clamp(0.68rem, 2.9vw, 0.82rem);
+    line-height: 1.35;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .books-hero-actions {
+    margin-top: clamp(12px, 3.8vw, 18px);
+    gap: clamp(8px, 2.6vw, 12px);
+  }
+
+  .books-hero-btn,
+  .books-hero-mobile-secondary {
+    min-height: 44px;
+    padding: clamp(9px, 2.8vw, 12px) clamp(14px, 4.2vw, 18px);
+    border: 1px solid #ffffff;
+    border-radius: 0;
+    font-family: 'Space Mono', 'JetBrains Mono', monospace;
+    font-size: clamp(0.66rem, 2.8vw, 0.78rem);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    line-height: 1;
+    text-transform: uppercase;
+    box-shadow: none;
+    transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+  }
+
+  .books-hero-btn {
+    background: #ffffff;
+    color: #000000;
+  }
+
+  .books-hero-mobile-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    color: #ffffff;
+  }
+
+  .books-hero-btn::before {
+    display: none;
+  }
+
+  .books-hero-btn:hover {
+    transform: scale(1.03);
+  }
+
+  .books-hero-score,
+  .books-hero-cover-wrap,
+  .books-hero-thumbs,
+  .books-hero-arrow {
+    display: none;
+  }
+
+  .books-hero-indicators {
+    left: 16px;
+    bottom: clamp(10px, 3vw, 14px);
+    gap: clamp(5px, 1.6vw, 8px);
+  }
+
+  .books-hero-indicator {
+    width: clamp(24px, 8vw, 38px);
+    height: 2px;
+    border-radius: 0;
+    background: rgba(255, 255, 255, 0.28);
+  }
+
+  .books-hero-indicator span {
+    background: #ffffff;
   }
 }

@@ -1,31 +1,163 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { VIDEO_EMBED_BASE_URL } from '../services/api';
+import {
+  CONTENT_API_BASE_URL,
+  CONTENT_API_KEY,
+  CONTENT_IMAGE_BASE_URL,
+  VIDEO_EMBED_BASE_URL
+} from '../services/api';
 import './HeroPrincipal.css';
 
 const AUTO_ROTATE_MS = 25000;
 
+const buildTrailerPosterUrl = (videoId, quality = 'maxresdefault') =>
+  `https://i.ytimg.com/vi/${videoId}/${quality}.jpg`;
+
+const buildContentImageUrl = (size, path) => `${CONTENT_IMAGE_BASE_URL}/${size}${path}`;
+
 const TRAILERS_BY_THEME = {
   filmes: [
-    { id: 1, title: 'Duna: Parte Dois', subtitle: 'Official preview', duration: '2:46', videoId: 'Way9Dexny3w' },
-    { id: 2, title: 'Deadpool & Wolverine', subtitle: 'Official preview', duration: '2:40', videoId: '73_1biulkYk' },
-    { id: 3, title: 'Gladiador II', subtitle: 'Official preview', duration: '2:20', videoId: '4rgYUipGJNo' },
-    { id: 4, title: 'Nosferatu', subtitle: 'Official preview', duration: '2:18', videoId: 'b59rxDB_JRg' },
-    { id: 5, title: 'The Batman', subtitle: 'Official preview', duration: '2:38', videoId: 'mqqft2x_Aa4' },
-    { id: 6, title: 'Avatar: O Ultimo Mestre do Ar', subtitle: 'Official preview', duration: '2:02', videoId: 'waJKJW_XU90' }
+    {
+      id: 1,
+      title: 'Duna: Parte Dois',
+      displayTitle: 'DUNA',
+      subtitle: 'Filme em destaque',
+      mediaType: 'movie',
+      queryTitle: 'Dune: Part Two',
+      titleClass: 'theme-dune',
+      kicker: 'Cartaz cinematografico',
+      videoId: 'Way9Dexny3w'
+    },
+    {
+      id: 2,
+      title: 'Deadpool & Wolverine',
+      displayTitle: 'Deadpool & Wolverine',
+      subtitle: 'Filme em destaque',
+      mediaType: 'movie',
+      queryTitle: 'Deadpool & Wolverine',
+      titleClass: 'theme-comic',
+      kicker: 'Cartaz cinematografico',
+      videoId: '73_1biulkYk'
+    },
+    {
+      id: 3,
+      title: 'Gladiador II',
+      displayTitle: 'Gladiador II',
+      subtitle: 'Filme em destaque',
+      mediaType: 'movie',
+      queryTitle: 'Gladiator II',
+      titleClass: 'theme-epic',
+      kicker: 'Cartaz cinematografico',
+      videoId: '4rgYUipGJNo'
+    },
+    {
+      id: 4,
+      title: 'Nosferatu',
+      displayTitle: 'Nosferatu',
+      subtitle: 'Filme em destaque',
+      mediaType: 'movie',
+      queryTitle: 'Nosferatu',
+      titleClass: 'theme-horror',
+      kicker: 'Cartaz cinematografico',
+      videoId: 'b59rxDB_JRg'
+    },
+    {
+      id: 5,
+      title: 'The Batman',
+      displayTitle: 'The Batman',
+      subtitle: 'Filme em destaque',
+      mediaType: 'movie',
+      queryTitle: 'The Batman',
+      titleClass: 'theme-noir',
+      kicker: 'Cartaz cinematografico',
+      videoId: 'mqqft2x_Aa4'
+    },
+    {
+      id: 6,
+      title: 'Avatar: O Ultimo Mestre do Ar',
+      displayTitle: 'Avatar',
+      subtitle: 'Serie em destaque',
+      mediaType: 'tv',
+      queryTitle: 'Avatar: The Last Airbender',
+      titleClass: 'theme-avatar',
+      kicker: 'Cartaz da serie',
+      videoId: 'waJKJW_XU90'
+    }
   ],
   series: [
-    { id: 101, title: 'Avatar: O Ultimo Mestre do Ar', subtitle: 'Series preview', duration: '2:02', videoId: 'waJKJW_XU90' },
-    { id: 102, title: 'The Last of Us', subtitle: 'Series preview', duration: '2:23', videoId: 'uLtkt8BonwM' },
-    { id: 103, title: 'Stranger Things 4', subtitle: 'Series preview', duration: '3:17', videoId: 'yQEondeGvKo' },
-    { id: 104, title: 'Wandinha', subtitle: 'Series preview', duration: '2:12', videoId: 'Di310WS8zLk' },
-    { id: 105, title: 'The Boys', subtitle: 'Series preview', duration: '2:43', videoId: 'EzFXDvC-EwM' },
-    { id: 106, title: 'House of the Dragon', subtitle: 'Series preview', duration: '2:53', videoId: 'DotnJ7tTA34' }
+    {
+      id: 101,
+      title: 'Avatar: O Ultimo Mestre do Ar',
+      displayTitle: 'Avatar',
+      subtitle: 'Serie em destaque',
+      mediaType: 'tv',
+      queryTitle: 'Avatar: The Last Airbender',
+      titleClass: 'theme-avatar',
+      kicker: 'Cartaz da serie',
+      videoId: 'waJKJW_XU90'
+    },
+    {
+      id: 102,
+      title: 'The Last of Us',
+      displayTitle: 'The Last of Us',
+      subtitle: 'Serie em destaque',
+      mediaType: 'tv',
+      queryTitle: 'The Last of Us',
+      titleClass: 'theme-infected',
+      kicker: 'Cartaz da serie',
+      videoId: 'uLtkt8BonwM'
+    },
+    {
+      id: 103,
+      title: 'Stranger Things 4',
+      displayTitle: 'Stranger Things',
+      subtitle: 'Serie em destaque',
+      mediaType: 'tv',
+      queryTitle: 'Stranger Things',
+      titleClass: 'theme-stranger',
+      kicker: 'Cartaz da serie',
+      videoId: 'yQEondeGvKo'
+    },
+    {
+      id: 104,
+      title: 'Wandinha',
+      displayTitle: 'Wandinha',
+      subtitle: 'Serie em destaque',
+      mediaType: 'tv',
+      queryTitle: 'Wednesday',
+      titleClass: 'theme-horror',
+      kicker: 'Cartaz da serie',
+      videoId: 'Di310WS8zLk'
+    },
+    {
+      id: 105,
+      title: 'The Boys',
+      displayTitle: 'The Boys',
+      subtitle: 'Serie em destaque',
+      mediaType: 'tv',
+      queryTitle: 'The Boys',
+      titleClass: 'theme-comic',
+      kicker: 'Cartaz da serie',
+      videoId: 'EzFXDvC-EwM'
+    },
+    {
+      id: 106,
+      title: 'House of the Dragon',
+      displayTitle: 'House of the Dragon',
+      subtitle: 'Serie em destaque',
+      mediaType: 'tv',
+      queryTitle: 'House of the Dragon',
+      titleClass: 'theme-epic',
+      kicker: 'Cartaz da serie',
+      videoId: 'DotnJ7tTA34'
+    }
   ]
 };
 
 function HeroPrincipal({ theme = 'filmes' }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isMuted, setIsMuted] = useState(true);
+  const [isPreviewPlaying, setIsPreviewPlaying] = useState(false);
+  const [posterAssets, setPosterAssets] = useState({});
   const frameRef = useRef(null);
   const trailers = TRAILERS_BY_THEME[theme] || TRAILERS_BY_THEME.filmes;
   const activeTrailer = trailers[activeIndex] || trailers[0];
@@ -44,7 +176,48 @@ function HeroPrincipal({ theme = 'filmes' }) {
     return () => window.clearTimeout(timer);
   }, [activeIndex, totalTrailers]);
 
+  useEffect(() => {
+    if (!CONTENT_API_KEY || posterAssets[activeTrailer.id]) return undefined;
+
+    const controller = new AbortController();
+    const mediaType = activeTrailer.mediaType || (theme === 'series' ? 'tv' : 'movie');
+    const query = encodeURIComponent(activeTrailer.queryTitle || activeTrailer.title);
+
+    const loadPosterAsset = async () => {
+      try {
+        const response = await fetch(
+          `${CONTENT_API_BASE_URL}/search/${mediaType}?api_key=${CONTENT_API_KEY}&language=pt-BR&include_adult=false&page=1&query=${query}`,
+          { signal: controller.signal }
+        );
+
+        if (!response.ok) return;
+
+        const data = await response.json();
+        const match = (data.results || []).find((item) => item.poster_path || item.backdrop_path);
+
+        if (!match) return;
+
+        setPosterAssets((currentAssets) => ({
+          ...currentAssets,
+          [activeTrailer.id]: {
+            posterPath: match.poster_path,
+            backdropPath: match.backdrop_path
+          }
+        }));
+      } catch (error) {
+        if (error.name !== 'AbortError') {
+          setPosterAssets((currentAssets) => currentAssets);
+        }
+      }
+    };
+
+    loadPosterAsset();
+
+    return () => controller.abort();
+  }, [activeTrailer, posterAssets, theme]);
+
   const goToSlide = (index) => {
+    setIsPreviewPlaying(false);
     setActiveIndex((index + totalTrailers) % totalTrailers);
   };
 
@@ -77,9 +250,35 @@ function HeroPrincipal({ theme = 'filmes' }) {
     return () => window.clearTimeout(timer);
   }, [activeIndex, applyAudioState]);
 
+  const scrollToCatalog = () => {
+    document.querySelector('.rows-container')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  const playPreviewWithSound = () => {
+    setIsPreviewPlaying(true);
+    setIsMuted(false);
+    sendPlayerCommand('playVideo');
+    sendPlayerCommand('unMute');
+    sendPlayerCommand('setVolume', [100]);
+  };
+
+  const handlePosterError = (event) => {
+    if (event.currentTarget.src.includes('hqdefault')) return;
+    event.currentTarget.src = buildTrailerPosterUrl(activeTrailer.videoId, 'hqdefault');
+  };
+
+  const activeAsset = posterAssets[activeTrailer.id];
+  const fallbackPosterUrl = buildTrailerPosterUrl(activeTrailer.videoId);
+  const posterUrl = activeAsset?.posterPath
+    ? buildContentImageUrl('w780', activeAsset.posterPath)
+    : fallbackPosterUrl;
+  const backdropUrl = activeAsset?.backdropPath
+    ? buildContentImageUrl('w1280', activeAsset.backdropPath)
+    : fallbackPosterUrl;
+
   return (
     <section className="hero-container-main" style={{ '--rotation-ms': `${AUTO_ROTATE_MS}ms` }}>
-      <div className="slide-principal">
+      <div className={`slide-principal ${isPreviewPlaying ? 'preview-playing' : ''}`}>
         <iframe
           key={activeTrailer.id}
           ref={frameRef}
@@ -89,6 +288,23 @@ function HeroPrincipal({ theme = 'filmes' }) {
           allow="autoplay; encrypted-media; picture-in-picture; web-share"
           onLoad={applyAudioState}
           allowFullScreen
+        />
+
+        <img
+          key={`${activeTrailer.id}-backdrop`}
+          className="hero-image-frame hero-backdrop-frame"
+          src={backdropUrl}
+          alt=""
+          aria-hidden="true"
+          onError={handlePosterError}
+        />
+
+        <img
+          key={`${activeTrailer.id}-poster`}
+          className="hero-poster-frame"
+          src={posterUrl}
+          alt={`Cartaz de ${activeTrailer.title}`}
+          onError={handlePosterError}
         />
 
         <label
@@ -125,9 +341,20 @@ function HeroPrincipal({ theme = 'filmes' }) {
 
         <div className="gradient-overlay-hero">
           <div className="hero-main-info">
-            <span className="duration-hero">{activeTrailer.duration}</span>
-            <h2>{activeTrailer.title}</h2>
+            <span className="hero-kicker">{activeTrailer.kicker}</span>
+            <h2 className={`hero-title-art ${activeTrailer.titleClass || ''}`}>
+              {activeTrailer.displayTitle || activeTrailer.title}
+            </h2>
             <p>{activeTrailer.subtitle}</p>
+
+            <div className="hero-actions">
+              <button type="button" className="hero-action hero-action-primary" onClick={scrollToCatalog}>
+                Explorar
+              </button>
+              <button type="button" className="hero-action hero-action-secondary" onClick={playPreviewWithSound}>
+                Trailer
+              </button>
+            </div>
 
             <div className="hero-indicators" role="tablist" aria-label="Preview list">
               {trailers.map((trailer, index) => (

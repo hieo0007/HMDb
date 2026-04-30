@@ -6,6 +6,20 @@
   gap: 30px;
 }
 
+.trending-grid > *,
+.features-grid > * {
+  border: 0.5px solid #1a1a1a;
+  padding: 24px;
+  background: #0D0D0D;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.trending-grid > *:hover,
+.features-grid > *:hover {
+  transform: scale(1.02) translateY(-2px);
+  border-color: #333333;
+}
+
 @media (max-width: 900px) {
   .trending-grid,
   .features-grid {

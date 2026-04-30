@@ -1,12 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Black+Ops+One&family=JetBrains+Mono:wght@400;600;700&display=swap');
+
 :root {
   --color-primary: #e50914;
   --color-primary-glow: rgba(229, 9, 20, 0.3);
-  --color-card-bg: #1a1a1a;
-  --color-border: #333333;
+  --color-card-bg: #0D0D0D;
+  --color-border: #1a1a1a;
   --cor-principal: var(--color-primary);
   --cor-glow: var(--color-primary-glow);
   --card-bg: var(--color-card-bg);
   --border-color: var(--color-border);
+
+  /* Cyberpunk palette */
+  --bg-dark: #0D0D0D;
+  --bg-light: #F5F5F0;
+  --text-primary: #ffffff;
+  --text-secondary: #999999;
+  --border-thin: 0.5px solid #1a1a1a;
+  --border-monospace: 0.5px dashed #333333;
+
+  /* Typography */
+  --font-title: 'Bebas Neue', 'Black Ops One', sans-serif;
+  --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* ===== ESPAÇAMENTO PROPORCIONAL ===== */
+  --space-xs: clamp(0.5rem, 1vw, 0.75rem);
+  --space-sm: clamp(0.75rem, 2vw, 1.25rem);
+  --space-md: clamp(1rem, 3vw, 2rem);
+  --space-lg: clamp(2rem, 5vw, 4rem);
+  --space-xl: clamp(4rem, 10vw, 8rem);
+
+  /* Gap entre cards */
+  --gap-cards: clamp(1rem, 3vw, 2rem);
+
+  /* Container */
+  --container-max: 1400px;
+  --container-padding: clamp(1rem, 5vw, 4rem);
+
+  /* Transição padrão fluida */
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 .app-container {
@@ -14,10 +50,36 @@
   padding-top: 70px;
   display: flex;
   flex-direction: column;
-  background-color: #000000;
+  background-color: #0D0D0D;
   color: #ffffff;
 }
 
-html {
-  scroll-behavior: smooth;
+/* Estilos de sobreposição e Z-index intencional */
+main {
+  position: relative;
+  z-index: 1;
+}
+
+section {
+  position: relative;
+}
+
+section::before {
+  content: attr(data-tech-label);
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  color: #333333;
+  letter-spacing: 0.1em;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@media (max-width: 768px) {
+  .app-container.catalog-route {
+    padding-top: 60px;
+    background: #000000;
+  }
 }

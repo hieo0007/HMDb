@@ -7,6 +7,18 @@ const USER_ID_STORAGE_KEY = 'user_id';
 const getStoredUserName = () =>
   localStorage.getItem(USER_STORAGE_KEY) || sessionStorage.getItem(USER_STORAGE_KEY) || '';
 
+const MENU_LINKS = [
+  { label: 'Novidades', path: '/filmes' },
+  { label: 'Populares', path: '/series' },
+  { label: 'Explorar Tudo', path: '/livros' }
+];
+
+const CATEGORY_LINKS = [
+  { label: 'Filmes', path: '/filmes' },
+  { label: 'Series', path: '/series' },
+  { label: 'Livros', path: '/livros' }
+];
+
 function Navbar({ onSearch, searchValue = '' }) {
   const [currentUserName, setCurrentUserName] = useState(() => getStoredUserName());
   const [mobileMenuPath, setMobileMenuPath] = useState('');
@@ -19,6 +31,7 @@ function Navbar({ onSearch, searchValue = '' }) {
     if (location.pathname.startsWith('/livros')) return '/livros';
     return '';
   }, [location.pathname]);
+  const userInitial = currentUserName.trim().charAt(0).toUpperCase();
 
   useEffect(() => {
     const syncUserName = () => {
@@ -51,6 +64,23 @@ function Navbar({ onSearch, searchValue = '' }) {
   return (
     <header className={`main-navbar ${isMobileMenuOpen ? 'mobile-open' : ''}`}>
       <div className="navbar-content">
+        <button
+          type="button"
+          className="mobile-menu-toggle"
+          aria-label={isMobileMenuOpen ? 'Fechar menu de navegacao' : 'Abrir menu de navegacao'}
+          aria-expanded={isMobileMenuOpen}
+          aria-controls="mobile-main-nav"
+          onClick={() =>
+            setMobileMenuPath((currentPath) =>
+              currentPath === location.pathname ? '' : location.pathname
+            )
+          }
+        >
+          <span />
+          <span />
+          <span />
+        </button>
+
         <Link to="/" className="brand-container" aria-label="HMDb home">
           <img src="/favicon.png" alt="HMDb logo" className="navbar-logo-img" />
           <span className="logo">HMDb</span>
@@ -106,33 +136,18 @@ function Navbar({ onSearch, searchValue = '' }) {
 
           {currentUserName ? (
             <div className="user-section">
-              <span className="user-name">Hello, {currentUserName}</span>
+              <span className="user-name" data-initial={userInitial}>
+                Hello, {currentUserName}
+              </span>
               <button type="button" onClick={handleLogout} className="logout-btn">
                 Logout
               </button>
             </div>
           ) : (
             <Link to="/pagelogin" className="login-btn">
-              Sign in
+              Entrar
             </Link>
           )}
-
-          <button
-            type="button"
-            className="mobile-menu-toggle"
-            aria-label={isMobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
-            aria-expanded={isMobileMenuOpen}
-            aria-controls="mobile-main-nav"
-            onClick={() =>
-              setMobileMenuPath((currentPath) =>
-                currentPath === location.pathname ? '' : location.pathname
-              )
-            }
-          >
-            <span />
-            <span />
-            <span />
-          </button>
         </div>
       </div>
 
@@ -141,26 +156,59 @@ function Navbar({ onSearch, searchValue = '' }) {
         className={`mobile-nav-panel ${isMobileMenuOpen ? 'open' : ''}`}
         aria-label="Mobile navigation"
       >
-        <Link to="/filmes" className={activePath === '/filmes' ? 'active' : ''} onClick={closeMobileMenu}>
-          Filmes
-        </Link>
-        <Link to="/series" className={activePath === '/series' ? 'active' : ''} onClick={closeMobileMenu}>
-          Series
-        </Link>
-        <Link to="/livros" className={activePath === '/livros' ? 'active' : ''} onClick={closeMobileMenu}>
-          Livros
-        </Link>
+        <div className="mobile-drawer-auth">
+          {currentUserName ? (
+            <>
+              <span className="mobile-drawer-user">Conectado como {currentUserName}</span>
+              <button type="button" className="mobile-auth-btn" onClick={handleLogout}>
+                Sair
+              </button>
+            </>
+          ) : (
+            <>
+              <Link to="/pagelogin" className="mobile-auth-btn primary" onClick={closeMobileMenu}>
+                Entrar
+              </Link>
+              <Link
+                to="/pagelogin?mode=signup"
+                className="mobile-auth-btn"
+                onClick={closeMobileMenu}
+              >
+                Cadastrar
+              </Link>
+            </>
+          )}
+        </div>
 
-        {currentUserName ? (
-          <button type="button" className="mobile-auth-btn" onClick={handleLogout}>
-            Logout
-          </button>
-        ) : (
-          <Link to="/pagelogin" className="mobile-auth-btn" onClick={closeMobileMenu}>
-            Sign in
-          </Link>
-        )}
+        <div className="mobile-drawer-group">
+          {MENU_LINKS.map((link) => (
+            <Link key={link.label} to={link.path} onClick={closeMobileMenu}>
+              {link.label}
+            </Link>
+          ))}
+        </div>
+
+        <div className="mobile-drawer-group">
+          <span className="mobile-drawer-label">Categorias</span>
+          {CATEGORY_LINKS.map((link) => (
+            <Link
+              key={link.path}
+              to={link.path}
+              className={activePath === link.path ? 'active' : ''}
+              onClick={closeMobileMenu}
+            >
+              {link.label}
+            </Link>
+          ))}
+        </div>
       </nav>
+
+      <button
+        type="button"
+        className={`mobile-nav-backdrop ${isMobileMenuOpen ? 'open' : ''}`}
+        aria-label="Fechar menu"
+        onClick={closeMobileMenu}
+      />
     </header>
   );
 }

@@ -1,7 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Black+Ops+One&family=JetBrains+Mono:wght@400;600;700&display=swap');
+
+@keyframes glitch {
+  0%, 100% { text-shadow: 0 0 #00ff00, 0 0 #ff00ff, 0 0 #0000ff; }
+  20% { text-shadow: 2px -2px #00ff00, -2px 2px #ff00ff, 2px 2px #0000ff; }
+  40% { text-shadow: -2px 2px #00ff00, 2px -2px #ff00ff, -2px -2px #0000ff; }
+  60% { text-shadow: 2px 2px #00ff00, -2px -2px #ff00ff, 2px -2px #0000ff; }
+  80% { text-shadow: -2px -2px #00ff00, 2px 2px #ff00ff, -2px 2px #0000ff; }
+}
+
 :root {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #0f0f1a;
-  color: white;
+  background-color: #0D0D0D;
+  color: #ffffff;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
@@ -9,6 +25,11 @@ body {
   padding: 0;
   min-width: 320px;
   min-height: 100vh;
+  background-color: #0D0D0D;
+  color: #ffffff;
+  font-family: var(--font-body, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif);
+  font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+  line-height: 1.6;
 }
 
 #root {
@@ -17,10 +38,16 @@ body {
 
 .navbar-logo {
   filter: drop-shadow(0 0 5px #ffffff);
-  transition: 0.3s;
+  transition: var(--transition, all 0.3s cubic-bezier(0.4, 0, 0.2, 1));
 }
 
 .navbar-logo:hover {
   filter: drop-shadow(0 0 10px #ffffff);
-  transform: scale(1.1);
+  transform: scale(1.02) translateY(-2px);
+}
+
+/* Efeito Glitch para títulos */
+.glitch-title {
+  font-family: var(--font-title);
+  animation: glitch 0.3s infinite;
 }

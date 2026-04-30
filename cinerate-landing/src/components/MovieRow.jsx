@@ -45,7 +45,7 @@ function MovieRow({ title, items, onItemClick }) {
   };
 
   return (
-    <section className="movie-row">
+    <section className="movie-row mobile-fade-in">
       <h2 className="movie-row-title">{title}</h2>
 
       {items.length === 0 ? (
@@ -74,7 +74,10 @@ function MovieRow({ title, items, onItemClick }) {
                 </div>
                 <div className="movie-row-meta">
                   <strong>{item.title}</strong>
-                  <span>Score {item.rating > 0 ? item.rating.toFixed(1) : 'N/A'}</span>
+                  <span className="movie-row-score">
+                    Score {item.rating > 0 ? item.rating.toFixed(1) : 'N/A'}
+                  </span>
+                  <span className="movie-row-category">{title}</span>
                 </div>
               </button>
             ))}

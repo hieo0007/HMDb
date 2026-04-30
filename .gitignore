@@ -1,12 +1,19 @@
+# Dependencies
 node_modules/
-dist/
-.env
-.env.*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 
+# Frontend
 cinerate-landing/node_modules/
 cinerate-landing/dist/
 cinerate-landing/.env
 cinerate-landing/.env.*
+cinerate-landing/.next/
+cinerate-landing/out/
+
+# Backend
 backend/node_modules/
 backend/.env
 backend/.env.*
@@ -14,7 +21,51 @@ backend/data/*.sqlite
 backend/data/*.sqlite-shm
 backend/data/*.sqlite-wal
 
-*.log
+# Build
+dist/
+build/
+.next/
+out/
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
 .DS_Store
 Thumbs.db
-.vscode/
+*.sublime-project
+*.sublime-workspace
+*.iml
+
+# Testing
+coverage/
+.nyc_output/
+
+# Logs
+logs/
+*.log
+lerna-debug.log*
+
+# Temporary files
+tmp/
+temp/
+.cache/
+.eslintcache
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+
+# IDEs
+.gradle
+.idea
+*.iml

@@ -1,14 +1,32 @@
 .movie-card {
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
+  border: 0.5px solid #1a1a1a;
+  border-radius: 0;
   overflow: hidden;
-  background: #171b24;
-  transition: transform 0.2s ease, border-color 0.2s ease;
+  background: #0D0D0D;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
+}
+
+.movie-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+  transition: left 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  z-index: 1;
+  pointer-events: none;
 }
 
 .movie-card:hover {
-  transform: translateY(-6px);
-  border-color: rgba(255, 255, 255, 0.24);
+  transform: scale(1.02) translateY(-2px);
+  border-color: #333333;
+}
+
+.movie-card:hover::before {
+  left: 100%;
 }
 
 .poster-wrapper {
@@ -29,26 +47,31 @@
 
 .card-info h3 {
   margin: 0 0 8px;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
+  font-family: 'Bebas Neue', 'Black Ops One', sans-serif;
   color: #ffffff;
+  letter-spacing: 0.05em;
 }
 
 .rating-value {
   display: flex;
   align-items: center;
   gap: 5px;
-  color: #d4d7dd;
+  color: #999999;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
 }
 
 .star {
-  color: #ef1f2a;
+  color: #ffffff;
 }
 
 .score {
   font-weight: 700;
+  color: #ffffff;
 }
 
 .votes {
-  color: #9ba3b2;
-  font-size: 0.82rem;
+  color: #666666;
+  font-size: 0.7rem;
 }

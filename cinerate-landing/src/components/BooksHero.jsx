@@ -25,6 +25,10 @@ function BooksHero({ items = [], onSelect }) {
     setActiveIndex((index + totalItems) % totalItems);
   };
 
+  const scrollToCatalog = () => {
+    document.querySelector('.rows-container')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
   return (
     <section
       className="books-hero"
@@ -61,6 +65,13 @@ function BooksHero({ items = [], onSelect }) {
             <div className="books-hero-actions">
               <button type="button" className="books-hero-btn" onClick={() => onSelect?.(activeBook)}>
                 Abrir livro
+              </button>
+              <button
+                type="button"
+                className="books-hero-btn books-hero-mobile-secondary"
+                onClick={scrollToCatalog}
+              >
+                Listas
               </button>
               <span className="books-hero-score">
                 Score {activeBook.rating > 0 ? activeBook.rating.toFixed(1) : 'N/A'}

@@ -1,11 +1,10 @@
 .hero {
   position: relative;
   min-height: 80vh;
-  padding: 140px 0 100px;
+  padding: clamp(5rem, 14vw, 10rem) 0 clamp(4rem, 10vw, 8rem);
   overflow: hidden;
-  background:
-    radial-gradient(circle at 20% 20%, rgba(123, 47, 247, 0.25), transparent 40%),
-    radial-gradient(circle at 80% 80%, rgba(47, 128, 237, 0.15), transparent 40%);
+  background: #0D0D0D;
+  border-bottom: 0.5px solid #1a1a1a;
 }
 
 .hero::before {
@@ -17,15 +16,13 @@
   height: 600px;
   z-index: 0;
   filter: blur(80px);
-  animation: floatGlow 8s ease-in-out infinite alternate;
-  background: radial-gradient(circle, rgba(123, 47, 247, 0.2), transparent 60%);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.03), transparent 60%);
 }
 
 @keyframes floatGlow {
   from {
     transform: translateY(0);
   }
-
   to {
     transform: translateY(40px);
   }
@@ -37,7 +34,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 60px;
+  gap: clamp(2rem, 6vw, 4rem);
 }
 
 .hero-text {
@@ -45,57 +42,93 @@
 }
 
 .hero-text h1 {
-  margin-bottom: 20px;
-  font-size: 4rem;
-  font-weight: 800;
-  line-height: 1.1;
+  margin-bottom: clamp(1rem, 2.5vw, 1.5rem);
+  font-size: clamp(2rem, 6vw, 6rem);
+  font-family: 'Bebas Neue', 'Black Ops One', sans-serif;
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .hero-text p {
-  margin-bottom: 35px;
+  margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
   max-width: 520px;
-  color: #bdbddb;
-  font-size: 1.1rem;
+  color: #999999;
+  font-size: clamp(0.9rem, 1.5vw, 1.1rem);
   line-height: 1.6;
+  font-family: 'JetBrains Mono', monospace;
 }
 
 .hero-buttons {
   display: flex;
-  gap: 20px;
+  flex-wrap: wrap;
+  gap: clamp(0.75rem, 2vw, 1.25rem);
 }
 
 .btn-primary {
-  padding: 12px 26px;
-  border: 0;
-  border-radius: 10px;
-  background: linear-gradient(90deg, #7b2ff7, #2f80ed);
+  padding: clamp(0.6rem, 1.5vw, 0.75rem) clamp(1rem, 3vw, 1.625rem);
+  border: 0.5px solid #ffffff;
+  border-radius: 0;
+  background: transparent;
   color: #ffffff;
-  box-shadow: 0 10px 25px rgba(123, 47, 247, 0.4);
-  transition: all 0.3s ease;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  font-size: clamp(0.8rem, 1.2vw, 0.9rem);
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: var(--transition, all 0.3s cubic-bezier(0.4, 0, 0.2, 1));
+  box-shadow: none;
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  z-index: -1;
+  transition: left 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .btn-primary:hover {
-  transform: translateY(-3px) scale(1.03);
+  transform: scale(1.02) translateY(-2px);
+  border-color: #ffffff;
+}
+
+.btn-primary:hover::before {
+  left: 0;
 }
 
 .btn-secondary {
-  padding: 12px 24px;
-  border-radius: 10px;
-  border: 1px solid #2f80ed;
-  background: #1c1c2e;
-  color: #ffffff;
-  transition: all 0.3s ease;
+  padding: clamp(0.6rem, 1.5vw, 0.75rem) clamp(1rem, 3vw, 1.5rem);
+  border-radius: 0;
+  border: 0.5px dashed #333333;
+  background: transparent;
+  color: #999999;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(0.8rem, 1.2vw, 0.9rem);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: var(--transition, all 0.3s cubic-bezier(0.4, 0, 0.2, 1));
 }
 
 .btn-secondary:hover {
-  transform: translateY(-3px);
+  transform: scale(1.02) translateY(-2px);
+  border-color: #666666;
+  color: #ffffff;
 }
 
 .hero-cards {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 25px;
+  gap: var(--gap-cards, clamp(1rem, 3vw, 2rem));
 }
 
 .mock-card {
@@ -109,10 +142,6 @@
   .hero-content {
     flex-direction: column;
     text-align: center;
-  }
-
-  .hero-text h1 {
-    font-size: 2.5rem;
   }
 
   .hero-cards {

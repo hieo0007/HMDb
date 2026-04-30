@@ -1,20 +1,29 @@
 .footer {
   position: relative;
   margin-top: auto;
-  padding: 30px 0;
-  border-top: 1px solid #222;
-  background: rgba(14, 14, 14, 0.94);
+  padding: clamp(1.5rem, 4vw, 3rem) 0;
+  border-top: 0.5px solid #1a1a1a;
+  background: #0D0D0D;
 }
 
 .footer::before {
-  content: none;
+  content: 'SYS:FOOTER | v1.0.0';
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translateY(-100%);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  color: #333333;
+  letter-spacing: 0.1em;
+  pointer-events: none;
 }
 
 .footer-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 24px;
+  gap: clamp(1rem, 3vw, 1.5rem);
   flex-wrap: wrap;
 }
 
@@ -26,43 +35,52 @@
 
 .footer-logo {
   font-size: 1.2rem;
-  font-weight: 800;
-  letter-spacing: 0.4px;
+  font-family: 'Bebas Neue', 'Black Ops One', sans-serif;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   color: #ffffff;
 }
 
 .footer-brand p {
   margin: 0;
-  color: #a6afc1;
-  font-size: 0.92rem;
+  color: #666666;
+  font-size: 0.8rem;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.05em;
 }
 
 .footer-links {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: clamp(0.5rem, 2vw, 1rem);
+  flex-wrap: wrap;
 }
 
 .footer-links a {
-  color: #d3dae8;
-  font-size: 0.9rem;
+  color: #999999;
+  font-size: 0.8rem;
   font-weight: 600;
-  padding: 6px 10px;
-  border-radius: 999px;
-  border: 1px solid transparent;
-  transition: all 0.25s ease;
+  font-family: 'JetBrains Mono', monospace;
+  padding: 6px 12px;
+  border-radius: 0;
+  border: 0.5px solid transparent;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  letter-spacing: 0.05em;
 }
 
 .footer-links a:hover {
   color: #fff;
-  border-color: rgba(229, 9, 20, 0.42);
-  background: rgba(229, 9, 20, 0.18);
+  border-color: #666666;
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .footer-copy {
   margin: 0;
-  color: #7f8898;
-  font-size: 0.83rem;
+  color: #555555;
+  font-size: 0.75rem;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.05em;
 }
 
 @media (max-width: 800px) {

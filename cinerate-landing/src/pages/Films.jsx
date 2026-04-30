@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import BooksHero from '../components/BooksHero';
 import HeroPrincipal from '../components/HeroPrincipal';
 import MovieRow from '../components/MovieRow';
@@ -17,6 +17,11 @@ const OPEN_LIBRARY_BASE_URL = 'https://openlibrary.org';
 const OPEN_LIBRARY_COVER_BASE_URL = 'https://covers.openlibrary.org/b/id';
 const BOOKS_CACHE_PREFIX = 'hmdb:books-row:v1';
 const BOOKS_CACHE_TTL_MS = 1000 * 60 * 30;
+const CATALOG_PILLS = [
+  { theme: 'filmes', label: 'Filmes', path: '/filmes' },
+  { theme: 'series', label: 'Series', path: '/series' },
+  { theme: 'livros', label: 'Livros', path: '/livros' }
+];
 const AWARD_WINNER_FALLBACK_IDS = [13, 122, 98, 597, 424, 238, 240, 496243, 545611, 872585, 1422];
 const AWARD_NOMINATED_FALLBACK_IDS = [278, 680, 857, 313369, 37799, 7345, 76341, 286217, 244786, 194];
 const STATIC_BOOK_FALLBACK = {
@@ -319,6 +324,27 @@ const fetchBooksRow = async ({ title, query, orderBy = 'relevance', signal }) =>
   }
 };
 
+function MobileCatalogNav({ activeTheme }) {
+  return (
+    <nav className="mobile-catalog-nav" aria-label="Categorias do catalogo">
+      {CATALOG_PILLS.map((item) => {
+        const isActive = item.theme === activeTheme;
+
+        return (
+          <Link
+            key={item.theme}
+            to={item.path}
+            className={`mobile-catalog-pill ${isActive ? 'active' : ''}`}
+            aria-current={isActive ? 'page' : undefined}
+          >
+            {item.label}
+          </Link>
+        );
+      })}
+    </nav>
+  );
+}
+
 function Films({ initialTheme, globalSearch = '' }) {
   const [rows, setRows] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -585,6 +611,7 @@ function Films({ initialTheme, globalSearch = '' }) {
         {initialTheme === 'livros' && featuredBooks.length > 0 && (
           <BooksHero items={featuredBooks} onSelect={handleItemClick} />
         )}
+        <MobileCatalogNav activeTheme={initialTheme} />
 
         <div className={`rows-container ${initialTheme === 'livros' ? 'rows-container-books' : ''}`}>
           {rows.map((row) => (

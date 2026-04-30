@@ -1,5 +1,46 @@
 {
+  "name": "hmdb",
+  "version": "1.0.0",
+  "description": "Movie, Series & Books Database Platform - Full-Stack Application",
+  "private": true,
+  "type": "module",
+  "homepage": "https://github.com/hieo0007/HMDb",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hieo0007/HMDb.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hieo0007/HMDb/issues"
+  },
+  "author": "hieo0007",
+  "license": "MIT",
+  "keywords": [
+    "movies",
+    "series",
+    "books",
+    "streaming",
+    "database",
+    "react",
+    "node",
+    "express",
+    "sqlite"
+  ],
+  "scripts": {
+    "dev": "concurrently \"cd backend && npm run dev\" \"cd cinerate-landing && npm run dev\"",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd cinerate-landing && npm run dev",
+    "build": "cd cinerate-landing && npm run build",
+    "build:backend": "cd backend && npm install",
+    "build:frontend": "cd cinerate-landing && npm install && npm run build",
+    "preview": "cd cinerate-landing && npm run preview",
+    "lint": "cd cinerate-landing && npm run lint",
+    "test": "echo \"No tests yet\" && exit 0",
+    "install:all": "npm install && cd backend && npm install && cd ../cinerate-landing && npm install"
+  },
   "dependencies": {
     "react-router-dom": "^7.13.0"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0"
   }
 }

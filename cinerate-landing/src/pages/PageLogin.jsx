@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import './PageLogin.css';
 
 const USER_STORAGE_KEY = 'user_name';
@@ -68,7 +68,12 @@ const requestApi = async (endpoint, payload) => {
 };
 
 function PageLogin() {
-  const [authMode, setAuthMode] = useState(AuthMode.SIGN_IN);
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const queryMode = searchParams.get('mode');
+  const [authMode, setAuthMode] = useState(() =>
+    queryMode === AuthMode.SIGN_UP ? AuthMode.SIGN_UP : AuthMode.SIGN_IN
+  );
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -81,7 +86,6 @@ function PageLogin() {
   const [infoMessage, setInfoMessage] = useState('');
   const [isSaving, setIsSaving] = useState(false);
   const [isRequestingResetCode, setIsRequestingResetCode] = useState(false);
-  const navigate = useNavigate();
 
   const isSignUpMode = authMode === AuthMode.SIGN_UP;
   const isForgotMode = authMode === AuthMode.FORGOT;
@@ -98,6 +102,16 @@ function PageLogin() {
     : isSignUpMode
       ? 'Crie seu acesso com nome publico para entrar no ambiente HMDb.'
       : 'Use seu e-mail e senha para continuar.';
+
+  useEffect(() => {
+    if (queryMode === AuthMode.SIGN_UP) {
+      setAuthMode(AuthMode.SIGN_UP);
+    }
+
+    if (queryMode === AuthMode.SIGN_IN) {
+      setAuthMode(AuthMode.SIGN_IN);
+    }
+  }, [queryMode]);
 
   const clearFields = ({ keepEmail = false } = {}) => {
     setName('');

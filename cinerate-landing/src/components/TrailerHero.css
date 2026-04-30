@@ -4,10 +4,11 @@
   margin: 40px auto;
   display: grid;
   grid-template-columns: 2fr 1fr;
-  border-radius: 10px;
+  border-radius: 0;
   overflow: hidden;
   position: relative;
-  background: #000;
+  background: #0D0D0D;
+  border: 0.5px solid #1a1a1a;
 }
 
 .trailer-main {
@@ -16,7 +17,7 @@
   display: flex;
   align-items: flex-end;
   padding: 30px;
-  background: #000;
+  background: #0D0D0D;
 }
 
 .trailer-main::after {
@@ -32,57 +33,83 @@
 }
 
 .trailer-time {
-  font-size: 0.9rem;
+  font-size: 0.75rem;
   opacity: 0.8;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.05em;
+  color: #666666;
 }
 
 .trailer-title {
   margin: 10px 0;
   font-size: 2.2rem;
-  font-weight: 800;
+  font-family: 'Bebas Neue', 'Black Ops One', sans-serif;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #ffffff;
 }
 
 .trailer-subtitle {
   font-size: 1rem;
   opacity: 0.8;
+  font-family: 'JetBrains Mono', monospace;
+  color: #999999;
 }
 
 .play-button {
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   margin-bottom: 15px;
-  background: #ef1f2a;
+  background: transparent;
+  border: 1px solid #ffffff;
   clip-path: polygon(25% 20%, 25% 80%, 80% 50%);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.play-button:hover {
+  transform: scale(1.1);
 }
 
 .trailer-sidebar {
   padding: 25px;
-  background: #111;
+  background: #0D0D0D;
+  border-left: 0.5px solid #1a1a1a;
 }
 
 .trailer-sidebar h3 {
   margin-bottom: 20px;
-  color: #ef1f2a;
+  color: #ffffff;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .trailer-item {
   margin-bottom: 20px;
   display: flex;
   gap: 10px;
-  transition: 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  cursor: pointer;
 }
 
 .trailer-item:hover {
+  transform: translateX(4px);
   opacity: 0.7;
 }
 
 .trailer-item img {
   width: 80px;
-  border-radius: 5px;
+  border-radius: 0;
+  border: 0.5px solid #1a1a1a;
 }
 
 .trailer-item-info {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
+  font-family: 'JetBrains Mono', monospace;
+  color: #999999;
 }
 
 @media (max-width: 900px) {

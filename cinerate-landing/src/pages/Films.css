@@ -1,5 +1,5 @@
 .films-page {
-  background: #0a0a0a;
+  background: #0D0D0D;
   min-height: 100vh;
   position: relative;
   overflow: hidden;
@@ -24,8 +24,8 @@
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.06), transparent 60%),
-    rgba(0, 0, 0, 0.68);
+    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.02), transparent 60%),
+    rgba(0, 0, 0, 0.75);
 }
 
 .films-main {
@@ -35,22 +35,28 @@
 }
 
 .rows-container {
-  max-width: 1400px;
-  margin: 20px auto 0;
-  padding: 0 40px 40px;
+  max-width: var(--container-max, 1400px);
+  margin: clamp(0.75rem, 2vw, 1.25rem) auto 0;
+  padding: 0 var(--container-padding, clamp(1rem, 5vw, 4rem)) clamp(1.5rem, 5vw, 3rem);
   display: flex;
   flex-direction: column;
-  gap: 26px;
+  gap: var(--gap-cards, clamp(1rem, 3vw, 2rem));
 }
 
 .rows-container-books {
   margin-top: 16px;
 }
 
+.mobile-catalog-nav {
+  display: none;
+}
+
 .loading-state {
   margin-top: 6px;
-  color: #d0d0d0;
-  font-size: 0.95rem;
+  color: #999999;
+  font-size: 0.9rem;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.05em;
 }
 
 .loading-state.error {
@@ -63,17 +69,97 @@
   }
 
   .rows-container {
-    padding: 0 16px 28px;
-    gap: 20px;
+    gap: clamp(0.75rem, 2.5vw, 1.5rem);
+  }
+}
+
+@media (max-width: 768px) {
+  .films-page {
+    overflow: visible;
+    background: #000000;
+  }
+
+  .video-background {
+    display: none;
+  }
+
+  .films-main {
+    padding-top: 0;
+  }
+
+  .mobile-catalog-nav {
+    position: sticky;
+    top: 60px;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    min-height: clamp(52px, 14vw, 60px);
+    padding: clamp(8px, 2.5vw, 12px) 16px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    border-top: 0.5px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 0.5px solid rgba(255, 255, 255, 0.12);
+    background: #000000;
+  }
+
+  .mobile-catalog-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .mobile-catalog-pill {
+    flex: 0 0 auto;
+    min-height: 44px;
+    padding: 6px 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 0.5px solid rgba(255, 255, 255, 0.18);
+    border-radius: 0;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.5);
+    font-family: 'Space Mono', 'JetBrains Mono', monospace;
+    font-size: clamp(0.66rem, 2.7vw, 0.78rem);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    line-height: 1;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .mobile-catalog-pill.active {
+    border-color: #ffffff;
+    background: #ffffff;
+    color: #000000;
+  }
+
+  .rows-container {
+    max-width: none;
+    margin: 0;
+    padding: clamp(18px, 5vw, 28px) 0 clamp(28px, 8vw, 44px);
+    gap: clamp(24px, 7vw, 36px);
   }
 
   .rows-container-books {
-    margin-top: 12px;
+    margin-top: 0;
+  }
+
+  .loading-state {
+    margin: 0 16px;
+    font-family: 'Space Mono', 'JetBrains Mono', monospace;
+    font-size: clamp(0.72rem, 3vw, 0.86rem);
+    letter-spacing: 0.08em;
+    line-height: 1.35;
+    text-transform: uppercase;
   }
 }
 
 @media (max-width: 640px) {
   .films-main {
-    padding-top: 4px;
+    padding-top: 0;
   }
 }

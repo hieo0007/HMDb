@@ -2,20 +2,17 @@
   --login-primary: var(--color-primary, #e50914);
   --login-primary-hover: #ff1f2d;
   --login-primary-deep: #9f0b12;
-  --login-surface: #111319;
-  --login-surface-2: #171a22;
-  --login-border: rgba(255, 255, 255, 0.14);
+  --login-surface: #0D0D0D;
+  --login-surface-2: #0D0D0D;
+  --login-border: rgba(255, 255, 255, 0.15);
   --login-text: #ffffff;
-  --login-text-soft: #c9ccd6;
-  --login-text-muted: #9ca1ad;
+  --login-text-soft: #999999;
+  --login-text-muted: #666666;
   min-height: calc(100vh - 70px);
   display: grid;
   place-items: center;
   padding: 24px 18px;
-  background:
-    radial-gradient(circle at 16% 14%, rgba(229, 9, 20, 0.28), transparent 44%),
-    radial-gradient(circle at 86% 86%, rgba(229, 9, 20, 0.12), transparent 40%),
-    linear-gradient(165deg, #050506, #0b0d12 48%, #0a0a0d);
+  background: #0D0D0D;
 }
 
 .login-shell {
@@ -33,14 +30,17 @@
 .brand-mark {
   color: #ffffff;
   font-size: 1.5rem;
-  font-weight: 800;
-  letter-spacing: 0.02em;
+  font-family: 'Bebas Neue', 'Black Ops One', sans-serif;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .brand-copy {
-  color: #ff6670;
-  font-size: 0.9rem;
-  font-weight: 600;
+  color: #999999;
+  font-size: 0.75rem;
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }
@@ -50,13 +50,11 @@
   flex-direction: column;
   gap: 12px;
   padding: 28px;
-  border-radius: 14px;
-  border: 1px solid var(--login-border);
-  background: linear-gradient(180deg, var(--login-surface), var(--login-surface-2));
-  box-shadow:
-    0 20px 54px rgba(0, 0, 0, 0.56),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  font-family: 'Manrope', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  border-radius: 0;
+  border: 0.5px solid #1a1a1a;
+  background: transparent;
+  box-shadow: none;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .auth-header {
@@ -70,33 +68,42 @@
   margin: 0;
   color: var(--login-text);
   font-size: 1.55rem;
+  font-family: 'Bebas Neue', 'Black Ops One', sans-serif;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   line-height: 1.15;
-  letter-spacing: -0.015em;
 }
 
 .auth-subtitle {
   margin: 0;
   color: var(--login-text-soft);
-  font-size: 0.91rem;
+  font-size: 0.85rem;
+  font-family: 'JetBrains Mono', monospace;
   line-height: 1.45;
+  letter-spacing: 0.05em;
 }
 
 .field-label {
   color: var(--login-text);
-  font-size: 0.87rem;
+  font-size: 0.8rem;
   font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
 .field-input {
   width: 100%;
   height: 48px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 8px;
+  border: 0.5px solid #333333;
+  border-radius: 0;
   padding: 0 12px;
-  background: rgba(255, 255, 255, 0.04);
+  background: transparent;
   color: var(--login-text);
-  font-size: 0.93rem;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  font-size: 0.9rem;
+  font-family: 'JetBrains Mono', monospace;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .field-input::placeholder {
@@ -105,9 +112,9 @@
 
 .field-input:focus {
   outline: none;
-  border-color: var(--login-primary);
-  background: rgba(255, 255, 255, 0.06);
-  box-shadow: 0 0 0 3px rgba(229, 9, 20, 0.2);
+  border-color: #666666;
+  background: rgba(255, 255, 255, 0.03);
+  box-shadow: none;
 }
 
 .password-field {
@@ -125,13 +132,14 @@
   transform: translateY(-50%);
   width: 28px;
   height: 28px;
-  border: 0;
-  border-radius: 6px;
+  border: 0.5px solid #333333;
+  border-radius: 0;
   background: transparent;
   color: var(--login-text-muted);
   display: grid;
   place-items: center;
   cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .password-toggle svg {
@@ -139,19 +147,20 @@
   height: 18px;
   fill: none;
   stroke: currentColor;
-  stroke-width: 1.8;
+  stroke-width: 1.5;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 
 .password-toggle:hover {
-  background: rgba(229, 9, 20, 0.15);
-  color: #ff5e69;
+  background: rgba(255, 255, 255, 0.05);
+  border-color: #666666;
+  color: #ffffff;
 }
 
 .password-toggle:focus-visible {
-  outline: 2px solid rgba(229, 9, 20, 0.5);
-  outline-offset: 1px;
+  outline: none;
+  border-color: #999999;
 }
 
 .auth-options {
@@ -166,38 +175,45 @@
   align-items: center;
   gap: 8px;
   color: var(--login-text-soft);
-  font-size: 0.83rem;
+  font-size: 0.8rem;
+  font-family: 'JetBrains Mono', monospace;
 }
 
 .remember input {
   width: 15px;
   height: 15px;
   margin: 0;
-  accent-color: var(--login-primary);
+  accent-color: #ffffff;
+  border: 0.5px solid #333333;
+  background: transparent;
 }
 
 .auth-helper {
   margin: 0;
   color: var(--login-text-muted);
-  font-size: 0.8rem;
+  font-size: 0.75rem;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.05em;
 }
 
 .login-info {
   margin: 0;
-  border-radius: 8px;
-  border: 1px solid rgba(16, 185, 129, 0.35);
-  background: rgba(220, 252, 231, 0.9);
-  color: #166534;
-  font-size: 0.84rem;
+  border-radius: 0;
+  border: 0.5px solid #333333;
+  background: transparent;
+  color: #999999;
+  font-size: 0.8rem;
+  font-family: 'JetBrains Mono', monospace;
   padding: 10px 11px;
+  letter-spacing: 0.05em;
 }
 
 .login-error {
   margin: 0;
-  border-radius: 8px;
-  border: 1px solid rgba(220, 38, 38, 0.35);
-  background: rgba(254, 226, 226, 0.8);
-  color: #991b1b;
+  border-radius: 0;
+  border: 0.5px dashed #ff7b7b;
+  background: transparent;
+  color: #ff9999;
   font-size: 0.84rem;
   padding: 10px 11px;
 }
@@ -306,21 +322,58 @@
 
 @media (max-width: 520px) {
   .login-page {
+    min-height: calc(100vh - 60px);
     padding: 20px 12px;
+    background: #000000;
   }
 
   .auth-card {
     padding: 22px 18px;
-    border-radius: 12px;
+    border-radius: 0;
+    background: #000000;
   }
 
   .auth-title {
     font-size: 1.35rem;
+    line-height: 0.95;
   }
 
   .auth-options {
     flex-direction: column;
     align-items: flex-start;
     gap: 6px;
+  }
+
+  .primary-btn,
+  .secondary-btn {
+    border-radius: 0;
+    font-family: 'Space Mono', 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    box-shadow: none;
+  }
+
+  .primary-btn {
+    border: 1px solid #ffffff;
+    background: #ffffff;
+    color: #000000;
+  }
+
+  .primary-btn:not(:disabled):hover,
+  .secondary-btn:hover {
+    transform: scale(1.03);
+    box-shadow: none;
+  }
+
+  .secondary-btn {
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    background: transparent;
+    color: #ffffff;
+  }
+
+  .link-btn {
+    color: #00e5ff;
   }
 }

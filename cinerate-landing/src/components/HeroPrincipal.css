@@ -1,12 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Bangers&family=Cinzel:wght@700;900&family=Creepster&family=Orbitron:wght@800;900&display=swap');
+
 .hero-container-main {
   width: 100%;
   max-width: 1280px;
   aspect-ratio: 16 / 9;
   height: auto;
-  margin: 20px auto;
-  border-radius: 10px;
+  margin: clamp(0.5rem, 2vw, 1.25rem) auto;
+  border-radius: 0;
   overflow: hidden;
   background: #050505;
+  border: 0.5px solid #1a1a1a;
 }
 
 .slide-principal {
@@ -24,6 +27,14 @@
   pointer-events: none;
 }
 
+.hero-image-frame {
+  display: none;
+}
+
+.hero-poster-frame {
+  display: none;
+}
+
 .hero-volume {
   --color: #ffffff;
   --size: 22px;
@@ -33,10 +44,10 @@
   z-index: 5;
   width: 38px;
   height: 38px;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  border-radius: 999px;
-  background: rgba(0, 0, 0, 0.28);
-  backdrop-filter: blur(3px);
+  border: 0.5px solid rgba(255, 255, 255, 0.35);
+  border-radius: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -44,12 +55,12 @@
   font-size: var(--size);
   user-select: none;
   fill: var(--color);
-  transition: border-color 0.2s ease, background 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .hero-volume:hover {
-  border-color: rgba(255, 255, 255, 0.35);
-  background: rgba(0, 0, 0, 0.38);
+  border-color: rgba(255, 255, 255, 0.6);
+  background: rgba(0, 0, 0, 0.7);
 }
 
 .hero-volume:focus,
@@ -102,16 +113,17 @@
   transform: translateY(-50%);
   width: 42px;
   height: 76px;
-  border: 1px solid rgba(255, 255, 255, 0.28);
-  border-radius: 8px;
-  background: rgba(5, 5, 5, 0.7);
+  border: 0.5px solid #333333;
+  border-radius: 0;
+  background: rgba(13, 13, 13, 0.85);
+  backdrop-filter: blur(8px);
   color: #fff;
   font-size: 1.9rem;
   line-height: 1;
   z-index: 4;
   display: grid;
   place-items: center;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .hero-arrow.left {
@@ -123,8 +135,8 @@
 }
 
 .hero-arrow:hover {
-  background: rgba(229, 9, 20, 0.88);
-  border-color: rgba(229, 9, 20, 0.95);
+  background: rgba(13, 13, 13, 0.95);
+  border-color: #666666;
 }
 
 .gradient-overlay-hero {
@@ -142,44 +154,57 @@
   pointer-events: auto;
 }
 
-.duration-hero {
+.hero-kicker {
   display: inline-block;
-  padding: 3px 7px;
-  border-radius: 4px;
-  background: rgba(0, 0, 0, 0.72);
+  padding: 4px 8px;
+  border-radius: 0;
+  background: transparent;
+  border: 0.5px solid #333333;
   color: #fff;
-  font-size: 0.84rem;
+  font-size: 0.7rem;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.05em;
 }
 
 .hero-main-info h2 {
-  margin: 8px 0 4px;
+  margin: clamp(0.4rem, 1.5vw, 0.8rem) 0 clamp(0.2rem, 0.8vw, 0.4rem);
   color: #fff;
-  font-size: 2rem;
+  font-size: clamp(1rem, 3vw, 2.5rem);
+  font-family: 'Bebas Neue', 'Black Ops One', sans-serif;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   line-height: 1.1;
 }
 
 .hero-main-info p {
   margin: 0;
-  color: #d0d0d0;
-  font-size: 1rem;
+  color: #999999;
+  font-size: clamp(0.8rem, 1.5vw, 1rem);
+  line-height: 1.6;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.hero-actions {
+  display: none;
 }
 
 .hero-indicators {
-  margin-top: 14px;
+  margin-top: clamp(0.5rem, 2vw, 1rem);
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: clamp(4px, 1vw, 8px);
 }
 
 .hero-indicator {
   position: relative;
   width: 52px;
-  height: 5px;
+  height: 2px;
   border: 0;
-  border-radius: 999px;
+  border-radius: 0;
   overflow: hidden;
   padding: 0;
-  background: rgba(255, 255, 255, 0.28);
+  background: #333333;
 }
 
 .hero-indicator-fill {
@@ -188,7 +213,7 @@
   left: 0;
   height: 100%;
   width: 0;
-  background: #fc0000;
+  background: #ffffff;
 }
 
 .hero-indicator.active .hero-indicator-fill {
@@ -210,6 +235,7 @@
     aspect-ratio: auto;
     height: auto;
     margin: 14px auto;
+    border-radius: 0;
   }
 
   .slide-principal {
@@ -236,6 +262,7 @@
     width: 34px;
     height: 34px;
     --size: 19px;
+    border-radius: 0;
   }
 
   .hero-main-info h2 {
@@ -256,6 +283,7 @@
     border-radius: 0;
     margin: 10px -16px 0;
     width: auto;
+    border: none;
   }
 
   .hero-main-info {
@@ -282,6 +310,256 @@
 
   .hero-indicator {
     width: 26px;
-    height: 4px;
+    height: 2px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-container-main {
+    width: 100vw;
+    max-width: none;
+    height: 55vh;
+    min-height: 300px;
+    max-height: 620px;
+    aspect-ratio: auto;
+    margin: 0 calc(50% - 50vw);
+    border: 0;
+    border-radius: 0;
+    background: #000000;
+    background-size: cover;
+    background-position: center top;
+  }
+
+  .slide-principal {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: auto;
+    overflow: hidden;
+    background: #000000;
+  }
+
+  .hero-trailer-frame {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: max(100vw, 560px, 98vh);
+    height: 100%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.18s ease;
+  }
+
+  .hero-image-frame {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    filter: brightness(0.68) saturate(0.88);
+    opacity: 1;
+    transition: opacity 0.18s ease;
+  }
+
+  .hero-backdrop-frame {
+    filter: brightness(0.34) saturate(0.78);
+    opacity: 0.32;
+  }
+
+  .hero-poster-frame {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    display: block;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: auto;
+    transform: none;
+    object-fit: cover;
+    object-position: center top;
+    border: 0;
+    filter: brightness(0.66) saturate(0.92);
+    opacity: 0.98;
+    transition: opacity 0.18s ease;
+  }
+
+  .slide-principal.preview-playing .hero-trailer-frame {
+    opacity: 1;
+  }
+
+  .slide-principal.preview-playing .hero-image-frame,
+  .slide-principal.preview-playing .hero-poster-frame {
+    opacity: 0;
+  }
+
+  .gradient-overlay-hero {
+    z-index: 3;
+    align-items: flex-end;
+    background:
+      linear-gradient(180deg, rgba(0, 0, 0, 0) 4%, #000000 100%),
+      linear-gradient(90deg, #000000 0%, rgba(0, 0, 0, 0.86) 42%, rgba(0, 0, 0, 0.18) 100%);
+  }
+
+  .hero-main-info {
+    position: relative;
+    z-index: 4;
+    padding: clamp(18px, 5vw, 28px) 16px clamp(18px, 6vw, 34px);
+  }
+
+  .hero-kicker {
+    display: none;
+  }
+
+  .hero-title-art {
+    position: relative;
+    z-index: 4;
+  }
+
+  .hero-title-art.theme-dune {
+    font-family: 'Orbitron', 'Bebas Neue', sans-serif;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+  }
+
+  .hero-title-art.theme-comic {
+    font-family: 'Bangers', 'Bebas Neue', sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+  }
+
+  .hero-title-art.theme-epic {
+    font-family: 'Cinzel', Georgia, serif;
+    font-weight: 900;
+    letter-spacing: 0.02em;
+  }
+
+  .hero-title-art.theme-horror,
+  .hero-title-art.theme-infected {
+    font-family: 'Creepster', 'Bebas Neue', sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+  }
+
+  .hero-title-art.theme-noir {
+    font-family: 'Black Ops One', 'Bebas Neue', sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+  }
+
+  .hero-title-art.theme-avatar {
+    font-family: 'Black Ops One', 'Bebas Neue', sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+  }
+
+  .hero-title-art.theme-stranger {
+    font-family: 'Cinzel', Georgia, serif;
+    font-weight: 900;
+    letter-spacing: 0.04em;
+  }
+
+  .hero-kicker {
+    padding: clamp(4px, 1.4vw, 6px) clamp(8px, 2.5vw, 10px);
+    border: 0.5px solid rgba(255, 255, 255, 0.28);
+    color: rgba(255, 255, 255, 0.72);
+    font-family: 'Space Mono', 'JetBrains Mono', monospace;
+    font-size: clamp(0.58rem, 2.4vw, 0.7rem);
+    letter-spacing: 0.1em;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .hero-main-info h2 {
+    max-width: min(10.5ch, 58vw);
+    margin: clamp(8px, 2.8vw, 14px) 0 clamp(4px, 1.8vw, 8px);
+    font-size: clamp(2.35rem, 12vw, 4.8rem);
+    line-height: 0.95;
+    letter-spacing: 0.06em;
+  }
+
+  .hero-main-info p {
+    max-width: 34ch;
+    color: rgba(255, 255, 255, 0.6);
+    font-family: 'Space Mono', 'JetBrains Mono', monospace;
+    font-size: clamp(0.68rem, 2.9vw, 0.82rem);
+    line-height: 1.35;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .hero-actions {
+    margin-top: clamp(12px, 3.8vw, 18px);
+    display: flex;
+    align-items: center;
+    gap: clamp(8px, 2.6vw, 12px);
+  }
+
+  .hero-action {
+    min-height: 44px;
+    padding: clamp(9px, 2.8vw, 12px) clamp(14px, 4.2vw, 18px);
+    border: 1px solid #ffffff;
+    border-radius: 0;
+    background: transparent;
+    color: #ffffff;
+    font-family: 'Space Mono', 'JetBrains Mono', monospace;
+    font-size: clamp(0.66rem, 2.8vw, 0.78rem);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    line-height: 1;
+    text-transform: uppercase;
+    box-shadow: none;
+    transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+  }
+
+  .hero-action-primary {
+    background: #ffffff;
+    color: #000000;
+  }
+
+  .hero-action-secondary {
+    background: transparent;
+    color: #ffffff;
+  }
+
+  .hero-action:active,
+  .hero-action:hover {
+    transform: scale(1.03);
+  }
+
+  .hero-volume {
+    display: none;
+    top: clamp(10px, 3vw, 14px);
+    right: clamp(10px, 3vw, 14px);
+    width: 44px;
+    height: 44px;
+    border: 0.5px solid rgba(255, 255, 255, 0.22);
+    border-radius: 0;
+    background: #000000;
+    backdrop-filter: none;
+    --size: 18px;
+  }
+
+  .slide-principal.preview-playing .hero-volume {
+    display: flex;
+  }
+
+  .hero-arrow {
+    display: none;
+  }
+
+  .hero-indicators {
+    margin-top: clamp(18px, 4.8vw, 26px);
+    display: flex;
+    gap: clamp(6px, 1.8vw, 9px);
+    max-width: min(230px, 52vw);
+  }
+
+  .hero-indicator {
+    width: clamp(24px, 8vw, 38px);
+    height: 2px;
+    background: rgba(255, 255, 255, 0.28);
   }
 }

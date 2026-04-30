@@ -3,12 +3,12 @@
   --landing-primary-soft: #ff3642;
   --landing-primary-deep: #8f0b12;
   --landing-text: #ffffff;
-  --landing-text-soft: #c2c7d2;
-  --landing-surface: rgba(7, 8, 11, 0.86);
+  --landing-text-soft: #999999;
+  --landing-surface: rgba(13, 13, 13, 0.95);
   min-height: calc(100vh - 70px);
   display: flex;
   flex-direction: column;
-  background: #050507;
+  background: #0D0D0D;
 }
 
 .landing-container {
@@ -17,22 +17,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 64px 24px;
+  padding: var(--space-lg, clamp(2rem, 5vw, 4rem)) var(--container-padding, clamp(1rem, 5vw, 4rem));
   overflow: hidden;
-  background:
-    radial-gradient(circle at 12% 18%, rgba(229, 9, 20, 0.2) 0%, rgba(229, 9, 20, 0) 42%),
-    radial-gradient(circle at 82% 80%, rgba(229, 9, 20, 0.07) 0%, rgba(229, 9, 20, 0) 38%),
-    linear-gradient(140deg, #040405 0%, #08090d 55%, #050507 100%);
+  background: #0D0D0D;
 }
 
 .landing-overlay {
   width: min(900px, 100%);
   padding: clamp(28px, 5vw, 48px);
-  border-radius: 24px;
-  border: 1px solid rgba(255, 255, 255, 0.11);
-  background: var(--landing-surface);
-  backdrop-filter: blur(8px);
-  box-shadow: 0 22px 64px rgba(0, 0, 0, 0.62);
+  border-radius: 0;
+  border: 0.5px solid #1a1a1a;
+  background: transparent;
+  backdrop-filter: blur(12px);
+  box-shadow: none;
 }
 
 .landing-hero {
@@ -47,8 +44,11 @@
   margin: 0;
   max-width: 18ch;
   font-size: clamp(2rem, 5vw, 3.2rem);
+  font-family: 'Bebas Neue', 'Black Ops One', sans-serif;
+  font-weight: 900;
   line-height: 1.08;
-  letter-spacing: -0.02em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   color: var(--landing-text);
 }
 
@@ -56,14 +56,15 @@
   margin: 0;
   max-width: 62ch;
   color: var(--landing-text-soft);
-  font-size: clamp(1rem, 1.8vw, 1.15rem);
-  line-height: 1.55;
+  font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+  line-height: 1.6;
+  font-family: 'JetBrains Mono', monospace;
 }
 
 .landing-buttons {
-  margin-top: 8px;
+  margin-top: var(--space-sm, clamp(0.75rem, 2vw, 1.25rem));
   display: flex;
-  gap: 12px;
+  gap: clamp(0.5rem, 2vw, 1rem);
   flex-wrap: wrap;
   justify-content: center;
 }
@@ -71,33 +72,54 @@
 .landing-buttons .btn-start,
 .landing-buttons .btn-secondary {
   height: 46px;
-  border-radius: 999px;
+  border-radius: 0;
   padding: 0 22px;
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   font-weight: 700;
-  transition: all 0.25s ease;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.05em;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .landing-buttons .btn-start {
   color: var(--landing-text);
-  background: linear-gradient(135deg, var(--landing-primary-soft) 0%, var(--landing-primary-deep) 100%);
-  box-shadow: 0 8px 20px rgba(229, 9, 20, 0.32);
+  background: transparent;
+  border: 0.5px solid #ffffff;
+  box-shadow: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.landing-buttons .btn-start::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  transition: left 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  z-index: -1;
 }
 
 .landing-buttons .btn-start:hover {
-  transform: translateY(-2px);
-  filter: brightness(1.06);
+  transform: scale(1.02);
+  border-color: #ffffff;
+}
+
+.landing-buttons .btn-start:hover::before {
+  left: 0;
 }
 
 .landing-buttons .btn-secondary {
-  color: #f5f6fa;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+  background: transparent;
+  border: 0.5px dashed #333333;
 }
 
 .landing-buttons .btn-secondary:hover {
-  border-color: rgba(229, 9, 20, 0.48);
-  background: rgba(229, 9, 20, 0.16);
+  border-color: #666666;
+  background: rgba(255, 255, 255, 0.05);
   transform: translateY(-2px);
 }
 
